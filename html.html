@@ -1,0 +1,2114 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AarogyaConnect — Rural Health Intelligence Platform</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --teal: #0D9B6E;
+    --teal-light: #E0F7EF;
+    --teal-dark: #065C42;
+    --coral: #F25C3B;
+    --coral-light: #FEF0EC;
+    --amber: #F5A623;
+    --amber-light: #FEF8EC;
+    --navy: #0B1F3A;
+    --navy-mid: #1A3558;
+    --gray-50: #F7F9FC;
+    --gray-100: #EDF0F5;
+    --gray-200: #D8DEE8;
+    --gray-400: #8A96A8;
+    --gray-600: #4A5568;
+    --gray-800: #1E2A3B;
+    --white: #FFFFFF;
+    --font-display: 'Syne', sans-serif;
+    --font-body: 'DM Sans', sans-serif;
+    --radius: 12px;
+    --radius-lg: 20px;
+    --radius-xl: 32px;
+    --shadow: 0 4px 24px rgba(11,31,58,0.08);
+    --shadow-md: 0 8px 40px rgba(11,31,58,0.13);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--font-body);
+    background: var(--gray-50);
+    color: var(--gray-800);
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(255,255,255,0.95);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--gray-100);
+    padding: 0 5%;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 68px;
+  }
+  .nav-logo {
+    display: flex; align-items: center; gap: 10px;
+    font-family: var(--font-display); font-weight: 700; font-size: 20px;
+    color: var(--navy); text-decoration: none;
+  }
+  .nav-logo-mark {
+    width: 34px; height: 34px; border-radius: 10px;
+    background: var(--teal);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .nav-logo-mark svg { width: 18px; height: 18px; }
+  .nav-links { display: flex; gap: 2rem; align-items: center; }
+  .nav-links a {
+    font-size: 14px; font-weight: 400; color: var(--gray-600);
+    text-decoration: none; transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--teal); }
+  .nav-cta {
+    background: var(--navy); color: white !important;
+    padding: 8px 20px; border-radius: 8px; font-weight: 500 !important;
+    font-size: 14px !important;
+  }
+  .nav-cta:hover { background: var(--teal) !important; color: white !important; }
+
+  /* LANGUAGE SELECTOR */
+  .lang-selector {
+    position: relative; display: flex; align-items: center; gap: 8px;
+  }
+  .lang-dropdown {
+    background: rgba(13,155,110,0.1); border: 1px solid rgba(13,155,110,0.3);
+    padding: 6px 12px; border-radius: 6px; font-size: 12px; font-weight: 600;
+    color: var(--teal); cursor: pointer; transition: all 0.2s;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .lang-dropdown:hover { background: rgba(13,155,110,0.15); border-color: rgba(13,155,110,0.5); }
+  .lang-icon { width: 16px; height: 16px; }
+  .lang-menu {
+    position: absolute; top: 100%; right: 0; margin-top: 6px;
+    background: white; border: 1px solid var(--gray-200); border-radius: 10px;
+    box-shadow: 0 8px 24px rgba(11,31,58,0.12); z-index: 1000;
+    min-width: 200px; max-height: 300px; overflow-y: auto; display: none;
+  }
+  .lang-menu.active { display: block; }
+  .lang-option {
+    padding: 10px 16px; font-size: 13px; color: var(--gray-800);
+    cursor: pointer; transition: background 0.15s;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .lang-option:hover { background: var(--gray-50); }
+  .lang-option.selected { background: var(--teal-light); color: var(--teal); font-weight: 600; }
+  .lang-checkmark { color: var(--teal); font-weight: bold; }
+
+  /* Language search box */
+  .lang-search-box {
+    padding: 10px 12px; border-bottom: 1px solid var(--gray-200);
+    position: sticky; top: 0; background: white; z-index: 10;
+  }
+  .lang-search-input {
+    width: 100%; padding: 8px 12px; border: 1px solid var(--gray-200);
+    border-radius: 6px; font-size: 13px; outline: none; transition: border-color 0.2s;
+  }
+  .lang-search-input:focus { border-color: var(--teal); box-shadow: 0 0 0 2px rgba(13,155,110,0.1); }
+  .lang-search-input::placeholder { color: var(--gray-400); }
+  .lang-no-results { padding: 20px 12px; text-align: center; color: var(--gray-400); font-size: 13px; }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    background: var(--navy);
+    position: relative;
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 100px 5% 80px;
+    overflow: hidden;
+  }
+  .hero-bg-grid {
+    position: absolute; inset: 0;
+    background-image: linear-gradient(rgba(13,155,110,0.06) 1px, transparent 1px),
+                      linear-gradient(90deg, rgba(13,155,110,0.06) 1px, transparent 1px);
+    background-size: 48px 48px;
+  }
+  .hero-blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.18;
+  }
+  .blob-1 { width: 500px; height: 500px; background: var(--teal); top: -100px; right: -100px; }
+  .blob-2 { width: 350px; height: 350px; background: #4F46E5; bottom: -80px; left: 5%; }
+
+  .hero-inner {
+    max-width: 1200px;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 5rem;
+    align-items: center;
+    position: relative; z-index: 2;
+  }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(13,155,110,0.15); border: 1px solid rgba(13,155,110,0.3);
+    border-radius: 40px; padding: 6px 16px;
+    font-size: 12px; font-weight: 500; color: #5BCEA3; letter-spacing: 0.04em;
+    text-transform: uppercase; margin-bottom: 1.5rem;
+  }
+  .badge-dot { width: 6px; height: 6px; border-radius: 50%; background: #5BCEA3; animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+
+  .hero h1 {
+    font-family: var(--font-display);
+    font-size: clamp(2.4rem, 4.5vw, 3.8rem);
+    font-weight: 800; line-height: 1.1;
+    color: white; margin-bottom: 1.5rem;
+  }
+  .hero h1 .accent { color: var(--teal); }
+  .hero-sub {
+    font-size: 17px; font-weight: 300; color: rgba(255,255,255,0.7);
+    max-width: 480px; margin-bottom: 2.5rem; line-height: 1.75;
+  }
+  .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+  .btn-primary {
+    background: var(--teal); color: white;
+    padding: 14px 28px; border-radius: 10px;
+    font-family: var(--font-body); font-size: 15px; font-weight: 500;
+    text-decoration: none; border: none; cursor: pointer;
+    transition: all 0.2s; display: inline-flex; align-items: center; gap: 8px;
+  }
+  .btn-primary:hover { background: #0B8860; transform: translateY(-1px); box-shadow: 0 8px 24px rgba(13,155,110,0.3); }
+  .btn-outline {
+    background: transparent; color: rgba(255,255,255,0.85);
+    padding: 14px 28px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.2);
+    font-family: var(--font-body); font-size: 15px; font-weight: 400;
+    text-decoration: none; cursor: pointer; transition: all 0.2s;
+    display: inline-flex; align-items: center; gap: 8px;
+  }
+  .btn-outline:hover { border-color: rgba(255,255,255,0.5); background: rgba(255,255,255,0.06); }
+
+  .hero-stats {
+    display: flex; gap: 2.5rem; margin-top: 3rem;
+    padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.1);
+  }
+  .stat-item { }
+  .stat-num {
+    font-family: var(--font-display); font-size: 28px; font-weight: 700;
+    color: white; line-height: 1;
+  }
+  .stat-num .unit { font-size: 16px; color: var(--teal); }
+  .stat-label { font-size: 12px; color: rgba(255,255,255,0.45); margin-top: 4px; letter-spacing: 0.03em; }
+
+  /* Hero right — dashboard mockup */
+  .hero-visual {
+    position: relative;
+    animation: floatIn 0.9s ease-out;
+  }
+  @keyframes floatIn { from{opacity:0;transform:translateY(30px)} to{opacity:1;transform:translateY(0)} }
+  .dashboard-card {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+    backdrop-filter: blur(20px);
+  }
+  .dash-header {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 1.2rem;
+  }
+  .dash-title { font-family: var(--font-display); font-size: 13px; font-weight: 600; color: rgba(255,255,255,0.9); letter-spacing: 0.05em; text-transform: uppercase; }
+  .dash-live { display: flex; align-items: center; gap: 5px; font-size: 11px; color: #5BCEA3; font-weight: 500; }
+  .live-dot { width: 6px; height: 6px; border-radius: 50%; background: #5BCEA3; animation: pulse 1.5s infinite; }
+
+  .triage-items { display: flex; flex-direction: column; gap: 10px; }
+  .triage-item {
+    display: flex; align-items: center; gap: 12px;
+    background: rgba(255,255,255,0.05); border-radius: 10px;
+    padding: 10px 14px; border: 1px solid rgba(255,255,255,0.06);
+  }
+  .severity-badge {
+    font-size: 10px; font-weight: 600; padding: 3px 8px; border-radius: 20px;
+    min-width: 52px; text-align: center; letter-spacing: 0.04em; text-transform: uppercase;
+  }
+  .sev-critical { background: rgba(242,92,59,0.2); color: #F9917A; border: 1px solid rgba(242,92,59,0.3); }
+  .sev-moderate { background: rgba(245,166,35,0.2); color: #F8C660; border: 1px solid rgba(245,166,35,0.3); }
+  .sev-stable { background: rgba(13,155,110,0.2); color: #5BCEA3; border: 1px solid rgba(13,155,110,0.3); }
+  .triage-info { flex: 1; }
+  .triage-name { font-size: 13px; font-weight: 500; color: rgba(255,255,255,0.9); }
+  .triage-symptom { font-size: 11px; color: rgba(255,255,255,0.45); margin-top: 2px; }
+  .triage-time { font-size: 11px; color: rgba(255,255,255,0.3); }
+
+  .mini-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
+  .mini-card {
+    background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 10px; padding: 12px;
+  }
+  .mini-num { font-family: var(--font-display); font-size: 22px; font-weight: 700; color: white; }
+  .mini-label { font-size: 11px; color: rgba(255,255,255,0.4); margin-top: 2px; }
+  .mini-trend { font-size: 11px; color: #5BCEA3; margin-top: 2px; }
+
+  /* SECTION BASE */
+  section { padding: 100px 5%; }
+  .section-inner { max-width: 1200px; margin: 0 auto; }
+  .section-tag {
+    font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--teal); margin-bottom: 12px; display: block;
+  }
+  .section-title {
+    font-family: var(--font-display); font-size: clamp(1.8rem, 3vw, 2.8rem);
+    font-weight: 800; line-height: 1.15; color: var(--navy);
+    margin-bottom: 1rem;
+  }
+  .section-sub {
+    font-size: 16px; color: var(--gray-400); max-width: 560px;
+    line-height: 1.75; font-weight: 300;
+  }
+
+  /* PROBLEM SECTION */
+  .problem-section { background: white; }
+  .problem-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; margin-top: 3.5rem; }
+  .problem-card {
+    border-radius: var(--radius-lg); padding: 2rem;
+    border: 1px solid var(--gray-100);
+    position: relative; overflow: hidden;
+    transition: transform 0.25s, box-shadow 0.25s;
+  }
+  .problem-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
+  .problem-card.coral { background: var(--coral-light); border-color: rgba(242,92,59,0.15); }
+  .problem-card.amber { background: var(--amber-light); border-color: rgba(245,166,35,0.15); }
+  .problem-card.teal { background: var(--teal-light); border-color: rgba(13,155,110,0.15); }
+  .problem-num {
+    font-family: var(--font-display); font-size: 3rem; font-weight: 800;
+    line-height: 1; margin-bottom: 0.5rem;
+  }
+  .problem-card.coral .problem-num { color: var(--coral); }
+  .problem-card.amber .problem-num { color: var(--amber); }
+  .problem-card.teal .problem-num { color: var(--teal); }
+  .problem-title { font-family: var(--font-display); font-size: 16px; font-weight: 700; color: var(--navy); margin-bottom: 8px; }
+  .problem-desc { font-size: 14px; color: var(--gray-600); line-height: 1.7; font-weight: 300; }
+
+  /* HOW IT WORKS */
+  .how-section { background: var(--gray-50); }
+  .steps-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; margin-top: 3.5rem; }
+  .step-card {
+    background: white; border-radius: var(--radius-lg);
+    border: 1px solid var(--gray-100);
+    padding: 1.75rem;
+    position: relative;
+    transition: transform 0.25s, box-shadow 0.25s;
+  }
+  .step-card:hover { transform: translateY(-3px); box-shadow: var(--shadow); }
+  .step-num {
+    font-family: var(--font-display); font-size: 12px; font-weight: 700;
+    color: var(--teal); letter-spacing: 0.08em; margin-bottom: 1rem;
+    border: 1.5px solid rgba(13,155,110,0.3);
+    display: inline-block; padding: 3px 10px; border-radius: 20px;
+  }
+  .step-icon {
+    width: 44px; height: 44px; border-radius: 12px;
+    margin-bottom: 1rem;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .step-icon svg { width: 22px; height: 22px; }
+  .step-icon.teal { background: var(--teal-light); }
+  .step-icon.coral { background: var(--coral-light); }
+  .step-icon.amber { background: var(--amber-light); }
+  .step-icon.navy { background: rgba(11,31,58,0.06); }
+  .step-title { font-family: var(--font-display); font-size: 16px; font-weight: 700; color: var(--navy); margin-bottom: 8px; }
+  .step-desc { font-size: 13.5px; color: var(--gray-600); line-height: 1.7; font-weight: 300; }
+  .step-connector { position: absolute; top: 2.5rem; right: -1.5rem; color: var(--gray-200); font-size: 20px; z-index: 2; }
+
+  /* FEATURES */
+  .features-section { background: var(--navy); padding: 100px 5%; }
+  .features-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; margin-top: 3.5rem; align-items: start; }
+  .feature-list { display: flex; flex-direction: column; gap: 1.25rem; }
+  .feature-item {
+    display: flex; gap: 1rem; padding: 1.5rem;
+    background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
+    border-radius: var(--radius); cursor: pointer; transition: all 0.2s;
+  }
+  .feature-item:hover, .feature-item.active {
+    background: rgba(13,155,110,0.12); border-color: rgba(13,155,110,0.3);
+  }
+  .feature-icon-wrap {
+    width: 40px; height: 40px; min-width: 40px;
+    border-radius: 10px; background: rgba(13,155,110,0.15);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .feature-icon-wrap svg { width: 18px; height: 18px; stroke: var(--teal); }
+  .feature-text-title { font-family: var(--font-display); font-size: 15px; font-weight: 600; color: white; margin-bottom: 5px; }
+  .feature-text-desc { font-size: 13px; color: rgba(255,255,255,0.5); line-height: 1.65; font-weight: 300; }
+
+  .feature-visual {
+    background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1);
+    border-radius: var(--radius-lg); overflow: hidden; position: sticky; top: 88px;
+  }
+  .fv-header {
+    padding: 1rem 1.5rem; border-bottom: 1px solid rgba(255,255,255,0.08);
+    display: flex; align-items: center; gap: 8px;
+  }
+  .fv-dot { width: 10px; height: 10px; border-radius: 50%; }
+  .fv-title { font-size: 13px; color: rgba(255,255,255,0.5); margin-left: 6px; font-family: var(--font-body); }
+  .fv-content { padding: 1.5rem; }
+
+  /* AI TRIAGE MOCKUP */
+  .chat-bubble {
+    border-radius: 12px; padding: 10px 14px; font-size: 13px; margin-bottom: 10px; max-width: 85%;
+    line-height: 1.6;
+  }
+  .chat-bot { background: rgba(13,155,110,0.15); border: 1px solid rgba(13,155,110,0.2); color: rgba(255,255,255,0.9); }
+  .chat-user { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.1); color: rgba(255,255,255,0.8); margin-left: auto; }
+  .triage-result {
+    background: rgba(242,92,59,0.12); border: 1px solid rgba(242,92,59,0.25);
+    border-radius: 12px; padding: 14px; margin-top: 8px;
+  }
+  .triage-label { font-size: 11px; font-weight: 600; color: #F9917A; letter-spacing: 0.08em; text-transform: uppercase; }
+  .triage-action { font-size: 14px; color: rgba(255,255,255,0.85); margin-top: 6px; font-weight: 500; }
+  .triage-note { font-size: 12px; color: rgba(255,255,255,0.45); margin-top: 4px; }
+
+  /* IMPACT */
+  .impact-section { background: white; }
+  .impact-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2.5rem; margin-top: 3.5rem; }
+  .impact-card {
+    border-radius: var(--radius-lg); padding: 2.5rem;
+    background: var(--gray-50); border: 1px solid var(--gray-100);
+    transition: transform 0.25s, box-shadow 0.25s;
+  }
+  .impact-card:hover { transform: translateY(-3px); box-shadow: var(--shadow); }
+  .impact-card.highlight {
+    background: var(--teal-light); border-color: rgba(13,155,110,0.2);
+    grid-column: span 2;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; align-items: center;
+  }
+  .impact-num {
+    font-family: var(--font-display); font-size: 3.5rem; font-weight: 800;
+    color: var(--navy); line-height: 1;
+  }
+  .impact-num span { color: var(--teal); }
+  .impact-card-title { font-family: var(--font-display); font-size: 18px; font-weight: 700; color: var(--navy); margin: 12px 0 8px; }
+  .impact-card-desc { font-size: 14px; color: var(--gray-600); line-height: 1.7; font-weight: 300; }
+
+  /* TECH STACK */
+  .tech-section { background: var(--gray-50); }
+  .tech-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; margin-top: 3rem; }
+  .tech-card {
+    background: white; border: 1px solid var(--gray-100);
+    border-radius: var(--radius-lg); padding: 1.5rem;
+    text-align: center; transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .tech-card:hover { transform: translateY(-2px); box-shadow: var(--shadow); }
+  .tech-icon-wrap {
+    width: 48px; height: 48px; border-radius: 12px; margin: 0 auto 12px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .tech-icon-wrap svg { width: 24px; height: 24px; }
+  .tech-name { font-family: var(--font-display); font-size: 15px; font-weight: 700; color: var(--navy); margin-bottom: 5px; }
+  .tech-desc { font-size: 12px; color: var(--gray-400); line-height: 1.5; }
+
+  /* DEMO SECTION */
+  .demo-section { background: white; }
+  .demo-wrapper {
+    margin-top: 3.5rem;
+    background: var(--navy);
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    position: relative;
+  }
+  .demo-tabs {
+    display: flex; gap: 0;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    padding: 0 2rem;
+  }
+  .demo-tab {
+    padding: 1rem 1.5rem; font-size: 13px; font-weight: 500;
+    color: rgba(255,255,255,0.4); cursor: pointer;
+    border-bottom: 2px solid transparent; margin-bottom: -1px;
+    transition: all 0.2s; font-family: var(--font-body);
+  }
+  .demo-tab.active { color: var(--teal); border-bottom-color: var(--teal); }
+  .demo-panel { padding: 2rem; display: none; }
+  .demo-panel.active { display: block; }
+
+  .symptom-checker {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; align-items: start;
+  }
+  .sc-input label { font-size: 12px; font-weight: 500; color: rgba(255,255,255,0.5); display: block; margin-bottom: 8px; letter-spacing: 0.05em; text-transform: uppercase; }
+  .sc-input select, .sc-input input {
+    width: 100%; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 8px; padding: 10px 14px; color: rgba(255,255,255,0.85);
+    font-family: var(--font-body); font-size: 14px; margin-bottom: 14px;
+    outline: none; transition: border-color 0.2s;
+  }
+  .sc-input select:focus, .sc-input input:focus { border-color: var(--teal); }
+  .sc-input select option { background: var(--navy-mid); }
+  .symptom-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+  .sym-tag {
+    font-size: 12px; padding: 5px 12px; border-radius: 20px;
+    background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
+    color: rgba(255,255,255,0.7); cursor: pointer; transition: all 0.15s; font-family: var(--font-body);
+  }
+  .sym-tag.selected { background: rgba(13,155,110,0.2); border-color: rgba(13,155,110,0.4); color: #5BCEA3; }
+  .analyze-btn {
+    width: 100%; padding: 12px; border-radius: 9px;
+    background: var(--teal); border: none; color: white;
+    font-family: var(--font-display); font-size: 14px; font-weight: 700;
+    cursor: pointer; transition: all 0.2s; letter-spacing: 0.03em;
+  }
+  .analyze-btn:hover { background: #0B8860; }
+  .sc-result {
+    background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
+    border-radius: var(--radius); padding: 1.5rem; min-height: 300px;
+  }
+  .result-placeholder { color: rgba(255,255,255,0.25); font-size: 14px; text-align: center; padding-top: 4rem; }
+  .result-content { display: none; }
+  .result-severity {
+    display: flex; align-items: center; gap: 10px; margin-bottom: 1.2rem;
+  }
+  .rsev-badge {
+    font-size: 12px; font-weight: 700; padding: 5px 14px; border-radius: 20px;
+    letter-spacing: 0.05em; text-transform: uppercase;
+  }
+  .rsev-moderate { background: rgba(245,166,35,0.2); color: #F8C660; border: 1px solid rgba(245,166,35,0.3); }
+  .rsev-label { font-size: 13px; color: rgba(255,255,255,0.5); }
+  .result-heading { font-family: var(--font-display); font-size: 20px; font-weight: 700; color: white; margin-bottom: 8px; }
+  .result-desc { font-size: 13px; color: rgba(255,255,255,0.6); line-height: 1.7; margin-bottom: 1rem; }
+  .result-rec-title { font-size: 11px; font-weight: 600; color: rgba(255,255,255,0.4); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 8px; }
+  .result-recs { display: flex; flex-direction: column; gap: 8px; }
+  .result-rec-item {
+    display: flex; align-items: flex-start; gap: 8px;
+    font-size: 13px; color: rgba(255,255,255,0.75); line-height: 1.6;
+  }
+  .rec-bullet { width: 6px; height: 6px; border-radius: 50%; background: var(--teal); margin-top: 7px; min-width: 6px; }
+  .result-nearby {
+    margin-top: 1.2rem; padding-top: 1.2rem;
+    border-top: 1px solid rgba(255,255,255,0.08);
+  }
+  .nearby-item {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.05);
+    font-size: 13px;
+  }
+  .nearby-name { color: rgba(255,255,255,0.8); font-weight: 500; }
+  .nearby-dist { color: rgba(255,255,255,0.35); }
+  .nearby-type { font-size: 11px; color: var(--teal); }
+
+  /* Reminder panel */
+  .reminder-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+  .med-card {
+    background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
+    border-radius: var(--radius); padding: 1.25rem;
+    display: flex; align-items: center; gap: 1rem;
+    transition: all 0.3s ease;
+  }
+  .med-card.taken { border-color: rgba(13,155,110,0.3); background: rgba(13,155,110,0.07); }
+  .med-card.removing { opacity: 0; transform: translateX(20px); }
+  .med-icon { width: 40px; height: 40px; border-radius: 10px; background: rgba(13,155,110,0.15); display: flex; align-items: center; justify-content: center; }
+  .med-icon svg { width: 20px; height: 20px; stroke: var(--teal); }
+  .med-name { font-size: 14px; font-weight: 500; color: rgba(255,255,255,0.9); }
+  .med-dose { font-size: 12px; color: rgba(255,255,255,0.4); margin-top: 2px; }
+  .med-time {
+    margin-left: auto; font-size: 12px; font-weight: 600;
+    color: #F8C660; background: rgba(245,166,35,0.1); border: 1px solid rgba(245,166,35,0.2);
+    padding: 4px 10px; border-radius: 20px;
+  }
+  .med-actions { display: flex; gap: 6px; margin-left: auto; align-items: center; }
+  .btn-take {
+    font-size: 11px; font-weight: 600; padding: 5px 12px; border-radius: 20px;
+    border: none; cursor: pointer; transition: all 0.2s; letter-spacing: 0.03em;
+    background: rgba(13,155,110,0.2); color: #5BCEA3;
+  }
+  .btn-take:hover { background: rgba(13,155,110,0.35); }
+  .btn-take.taken-btn { background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.4); }
+  .btn-del {
+    width: 26px; height: 26px; border-radius: 50%; border: none; cursor: pointer;
+    background: rgba(242,92,59,0.15); color: #F9917A; font-size: 13px;
+    display: flex; align-items: center; justify-content: center; transition: all 0.2s;
+  }
+  .btn-del:hover { background: rgba(242,92,59,0.3); }
+  /* Add-medicine form */
+  .add-med-form {
+    background: rgba(255,255,255,0.03); border: 1px dashed rgba(255,255,255,0.15);
+    border-radius: var(--radius); padding: 1.25rem; margin-top: 1rem;
+  }
+  .add-med-form.hidden { display: none; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
+  .form-row.single { grid-template-columns: 1fr; }
+  .med-input {
+    background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 8px; padding: 9px 12px; color: rgba(255,255,255,0.85);
+    font-family: var(--font-body); font-size: 13px; width: 100%;
+    outline: none; transition: border-color 0.2s;
+  }
+  .med-input:focus { border-color: var(--teal); }
+  .med-input::placeholder { color: rgba(255,255,255,0.25); }
+  .med-input option { background: #1A3558; }
+  .form-btns { display: flex; gap: 8px; margin-top: 6px; }
+  .btn-save-med {
+    flex: 1; padding: 9px; border-radius: 8px;
+    background: var(--teal); border: none; color: white;
+    font-family: var(--font-display); font-size: 13px; font-weight: 700;
+    cursor: pointer; transition: all 0.2s;
+  }
+  .btn-save-med:hover { background: #0B8860; }
+  .btn-cancel-med {
+    padding: 9px 16px; border-radius: 8px;
+    background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
+    color: rgba(255,255,255,0.5); font-size: 13px; cursor: pointer; transition: all 0.2s;
+  }
+  .btn-cancel-med:hover { background: rgba(255,255,255,0.1); }
+  /* Adherence bar */
+  .adherence-bar-wrap {
+    background: rgba(255,255,255,0.06); border-radius: 6px; height: 8px;
+    overflow: hidden; margin: 6px 0;
+  }
+  .adherence-bar-fill {
+    height: 100%; background: linear-gradient(90deg, var(--teal), #5BCEA3);
+    border-radius: 6px; transition: width 0.6s ease;
+  }
+  /* Alert banner */
+  .alert-banner {
+    background: rgba(242,92,59,0.12); border: 1px solid rgba(242,92,59,0.3);
+    border-radius: 10px; padding: 10px 14px; font-size: 12px;
+    color: rgba(255,255,255,0.8); margin-top: 10px;
+    display: flex; align-items: center; gap: 8px;
+    animation: slideIn 0.4s ease;
+  }
+  @keyframes slideIn { from{opacity:0;transform:translateY(-8px)} to{opacity:1;transform:translateY(0)} }
+  .alert-banner.hidden { display: none; }
+  /* District filter buttons */
+  .dist-btn {
+    font-size: 10px; font-weight: 600; padding: 3px 10px; border-radius: 12px;
+    background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
+    color: rgba(255,255,255,0.5); cursor: pointer; transition: all 0.2s;
+  }
+  .dist-btn:hover { background: rgba(255,255,255,0.12); color: rgba(255,255,255,0.8); }
+  .dist-btn.dist-active { background: rgba(13,155,110,0.2); border-color: rgba(13,155,110,0.4); color: #5BCEA3; }
+
+  /* CTA */
+  .cta-section {
+    background: var(--teal-dark); padding: 100px 5%;
+    position: relative; overflow: hidden;
+  }
+  .cta-section::before {
+    content: '';
+    position: absolute; top: -100px; right: -100px;
+    width: 400px; height: 400px; border-radius: 50%;
+    background: rgba(255,255,255,0.04);
+  }
+  .cta-inner { max-width: 700px; position: relative; z-index: 2; }
+  .cta-title { font-family: var(--font-display); font-size: clamp(2rem, 4vw, 3rem); font-weight: 800; color: white; line-height: 1.15; margin-bottom: 1.2rem; }
+  .cta-sub { font-size: 17px; color: rgba(255,255,255,0.7); line-height: 1.75; margin-bottom: 2rem; font-weight: 300; }
+  .cta-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+  .btn-white {
+    background: white; color: var(--teal-dark);
+    padding: 14px 28px; border-radius: 10px;
+    font-family: var(--font-body); font-size: 15px; font-weight: 600;
+    text-decoration: none; display: inline-flex; align-items: center; gap: 8px;
+    transition: all 0.2s;
+  }
+  .btn-white:hover { background: rgba(255,255,255,0.9); transform: translateY(-1px); }
+
+  /* FOOTER */
+  footer {
+    background: var(--navy); padding: 3rem 5%;
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
+  .footer-inner {
+    max-width: 1200px; margin: 0 auto;
+    display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 1rem;
+  }
+  .footer-logo { font-family: var(--font-display); font-size: 18px; font-weight: 700; color: white; }
+  .footer-logo span { color: var(--teal); }
+  .footer-tagline { font-size: 13px; color: rgba(255,255,255,0.3); margin-top: 4px; }
+  .footer-right { font-size: 13px; color: rgba(255,255,255,0.3); text-align: right; }
+  .footer-right a { color: var(--teal); text-decoration: none; }
+  .hackathon-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(13,155,110,0.15); border: 1px solid rgba(13,155,110,0.25);
+    border-radius: 8px; padding: 8px 16px; font-size: 13px; color: #5BCEA3; font-weight: 500;
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 900px) {
+    .hero-inner { grid-template-columns: 1fr; gap: 3rem; }
+    .hero-visual { display: none; }
+    .problem-grid { grid-template-columns: 1fr; }
+    .steps-grid { grid-template-columns: 1fr 1fr; }
+    .features-grid { grid-template-columns: 1fr; }
+    .tech-grid { grid-template-columns: repeat(2, 1fr); }
+    .impact-grid { grid-template-columns: 1fr; }
+    .impact-card.highlight { grid-column: span 1; grid-template-columns: 1fr; }
+    .symptom-checker { grid-template-columns: 1fr; }
+    .reminder-grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 600px) {
+    .steps-grid { grid-template-columns: 1fr; }
+    .hero-stats { gap: 1.5rem; }
+    .nav-links { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">
+    <div class="nav-logo-mark">
+      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 4.5C12 4.5 7 8.5 7 13C7 15.76 9.24 18 12 18C14.76 18 17 15.76 17 13C17 8.5 12 4.5 12 4.5Z" fill="white" fill-opacity="0.9"/>
+        <path d="M10 13H14M12 11V15" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+    </div>
+    AarogyaConnect
+  </a>
+  <div class="nav-links">
+    <a href="#problem">Problem</a>
+    <a href="#solution">Solution</a>
+    <a href="#features">Features</a>
+    <a href="#demo">Demo</a>
+    <a href="#impact">Impact</a>
+    <a href="#demo" class="nav-cta">Try Demo</a>
+    <div class="lang-selector">
+      <div class="lang-dropdown" onclick="toggleLangMenu()">
+        <svg class="lang-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+        <span id="lang-label">EN</span>
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="lang-menu" id="lang-menu">
+        <div class="lang-search-box">
+          <input type="text" class="lang-search-input" id="lang-search" placeholder="Search languages...">
+        </div>
+        <div id="lang-options-container">
+          <!-- Languages will be dynamically populated here -->
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-bg-grid"></div>
+  <div class="hero-blob blob-1"></div>
+  <div class="hero-blob blob-2"></div>
+
+  <div class="hero-inner">
+    <div>
+      <div class="hero-badge">
+        <span class="badge-dot"></span>
+        National Health Innovation Hackathon 2025
+      </div>
+      <h1>
+        AI-Powered <span class="accent">Rural Health</span><br>
+        Triage & Telemedicine<br>Bridge
+      </h1>
+      <p class="hero-sub">
+        Connecting 700 million rural Indians to life-saving healthcare — through intelligent symptom triage, real-time doctor matching, and offline-capable emergency routing.
+      </p>
+      <div class="hero-actions">
+        <a href="#demo" class="btn-primary">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          Live Demo
+        </a>
+        <a href="#problem" class="btn-outline">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+          Learn More
+        </a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat-item">
+          <div class="stat-num">70<span class="unit">%</span></div>
+          <div class="stat-label">India without adequate healthcare access</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">8.4<span class="unit">L</span></div>
+          <div class="stat-label">Annual preventable deaths</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">1:2000</div>
+          <div class="stat-label">Doctor-patient ratio in rural India</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-visual">
+      <div class="dashboard-card">
+        <div class="dash-header">
+          <span class="dash-title">Live Triage Queue</span>
+          <span class="dash-live"><span class="live-dot"></span> Live</span>
+        </div>
+        <div class="triage-items">
+          <div class="triage-item">
+            <span class="severity-badge sev-critical">Critical</span>
+            <div class="triage-info">
+              <div class="triage-name">Meena D., 58</div>
+              <div class="triage-symptom">Chest pain, breathlessness</div>
+            </div>
+            <div class="triage-time">2m ago</div>
+          </div>
+          <div class="triage-item">
+            <span class="severity-badge sev-moderate">Moderate</span>
+            <div class="triage-info">
+              <div class="triage-name">Raju K., 34</div>
+              <div class="triage-symptom">High fever, 103°F, 3 days</div>
+            </div>
+            <div class="triage-time">8m ago</div>
+          </div>
+          <div class="triage-item">
+            <span class="severity-badge sev-stable">Stable</span>
+            <div class="triage-info">
+              <div class="triage-name">Priya S., 22</div>
+              <div class="triage-symptom">Seasonal cough, mild cold</div>
+            </div>
+            <div class="triage-time">14m ago</div>
+          </div>
+        </div>
+        <div class="mini-cards">
+          <div class="mini-card">
+            <div class="mini-num">247</div>
+            <div class="mini-label">Patients Today</div>
+            <div class="mini-trend">↑ 12% vs yesterday</div>
+          </div>
+          <div class="mini-card">
+            <div class="mini-num">8.3<span style="font-size:13px;font-family:var(--font-body);font-weight:400;color:rgba(255,255,255,0.4)"> min</span></div>
+            <div class="mini-label">Avg Response Time</div>
+            <div class="mini-trend">↓ 31% this week</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROBLEM -->
+<section class="problem-section" id="problem">
+  <div class="section-inner">
+    <span class="section-tag">The Problem</span>
+    <h2 class="section-title">India's rural healthcare crisis<br>demands urgent innovation</h2>
+    <p class="section-sub">Over 65% of India's population lives in rural areas, yet they receive less than 30% of healthcare services. The gap is widening — and preventable deaths are the price.</p>
+
+    <div class="problem-grid">
+      <div class="problem-card coral">
+        <div class="problem-num">8.4L</div>
+        <div class="problem-title">Preventable Deaths Annually</div>
+        <div class="problem-desc">Deaths from conditions like sepsis, cardiac events, and complicated pregnancies that could have been avoided with timely diagnosis and care.</div>
+      </div>
+      <div class="problem-card amber">
+        <div class="problem-num">62%</div>
+        <div class="problem-title">Delay in Seeking Care</div>
+        <div class="problem-desc">Patients wait an average of 48 hours before seeking professional help — often arriving at hospitals when conditions have already worsened critically.</div>
+      </div>
+      <div class="problem-card teal">
+        <div class="problem-num">1:2000</div>
+        <div class="problem-title">Doctor-to-Patient Ratio</div>
+        <div class="problem-desc">In rural India, one doctor serves 2,000+ patients on average — compared to WHO's recommended 1:1000. Telemedicine is the only scalable bridge.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how-section" id="solution">
+  <div class="section-inner">
+    <span class="section-tag">How It Works</span>
+    <h2 class="section-title">From symptom to care,<br>in under 10 minutes</h2>
+    <p class="section-sub">AarogyaConnect is a four-step intelligent pipeline that works even on low-bandwidth networks and in 12 regional languages.</p>
+
+    <div class="steps-grid">
+      <div class="step-card" style="position:relative">
+        <div class="step-num">Step 01</div>
+        <div class="step-icon teal">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#0D9B6E" stroke-width="2"><path d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+        </div>
+        <div class="step-title">Multilingual Symptom Input</div>
+        <div class="step-desc">Patients describe symptoms via voice or text in Hindi, Tamil, Punjabi, Bengali, and 8 more languages. Works on basic smartphones with 2G connectivity.</div>
+      </div>
+      <div class="step-card">
+        <div class="step-num">Step 02</div>
+        <div class="step-icon coral">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#F25C3B" stroke-width="2"><path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
+        </div>
+        <div class="step-title">AI Triage & Risk Scoring</div>
+        <div class="step-desc">Our clinical NLP model assesses severity — critical, moderate, or stable — in under 3 seconds, referencing India's disease burden and seasonal outbreak patterns.</div>
+      </div>
+      <div class="step-card">
+        <div class="step-num">Step 03</div>
+        <div class="step-icon amber">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#F5A623" stroke-width="2"><path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+        </div>
+        <div class="step-title">Doctor Matching & Routing</div>
+        <div class="step-desc">Critical cases are instantly matched to the nearest available specialist for video/audio teleconsult. Non-urgent cases get self-care guidance and nearby PHC directions.</div>
+      </div>
+      <div class="step-card">
+        <div class="step-num">Step 04</div>
+        <div class="step-icon navy">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#0B1F3A" stroke-width="2"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/></svg>
+        </div>
+        <div class="step-title">Follow-up & Monitoring</div>
+        <div class="step-desc">Automated SMS/WhatsApp reminders for medicines, follow-up appointments, and vaccination schedules. Families get health summaries in local languages.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="features-section" id="features">
+  <div class="section-inner">
+    <span class="section-tag" style="color:#5BCEA3">Core Features</span>
+    <h2 class="section-title" style="color:white">Built for the realities<br>of rural India</h2>
+
+    <div class="features-grid">
+      <div class="feature-list">
+        <div class="feature-item active" onclick="setFeature(0, this)">
+          <div class="feature-icon-wrap">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+          </div>
+          <div>
+            <div class="feature-text-title">AI Symptom Triage (12 languages)</div>
+            <div class="feature-text-desc">Clinical-grade NLP trained on India's disease burden data. Distinguishes fever from malaria from dengue — contextually, locally.</div>
+          </div>
+        </div>
+        <div class="feature-item" onclick="setFeature(1, this)">
+          <div class="feature-icon-wrap">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M15 10l4.553-2.069A1 1 0 0121 8.87V15.13a1 1 0 01-1.447.9L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+          </div>
+          <div>
+            <div class="feature-text-title">Telemedicine with Audio Fallback</div>
+            <div class="feature-text-desc">Video consultations for 4G areas; degrades gracefully to voice-only on 2G. Doctors can prescribe digitally via a verifiable token.</div>
+          </div>
+        </div>
+        <div class="feature-item" onclick="setFeature(2, this)">
+          <div class="feature-icon-wrap">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+          </div>
+          <div>
+            <div class="feature-text-title">Offline Emergency Routing</div>
+            <div class="feature-text-desc">Cached maps of nearest PHCs, hospitals, and blood banks. Works without internet. Sends SMS alerts to nearest emergency contact on critical triage.</div>
+          </div>
+        </div>
+        <div class="feature-item" onclick="setFeature(3, this)">
+          <div class="feature-icon-wrap">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
+          </div>
+          <div>
+            <div class="feature-text-title">Medicine Reminders & Adherence</div>
+            <div class="feature-text-desc">SMS and WhatsApp reminders for chronic disease patients — diabetes, hypertension, TB — with caregiver alerts if doses are missed for 2+ days.</div>
+          </div>
+        </div>
+        <div class="feature-item" onclick="setFeature(4, this)">
+          <div class="feature-icon-wrap">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+          </div>
+          <div>
+            <div class="feature-text-title">Public Health Dashboard</div>
+            <div class="feature-text-desc">District-level outbreak detection. Health officials see real-time symptom clusters, anomalies, and can deploy rapid response teams in 1 click.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="feature-visual">
+        <div class="fv-header">
+          <div class="fv-dot" style="background:#EF4444"></div>
+          <div class="fv-dot" style="background:#F59E0B; margin-left:4px;"></div>
+          <div class="fv-dot" style="background:#10B981; margin-left:4px;"></div>
+          <span class="fv-title" id="fv-title">AI Triage Assistant</span>
+        </div>
+        <div class="fv-content" id="fv-content">
+          <div class="chat-bubble chat-bot">Namaste! Main aapki symptoms ke baare mein poochhna chahta hoon. Kya aap mujhe batayenge aap kaisa feel kar rahe hain? <span style="font-size:11px;opacity:0.5">(How are you feeling today?)</span></div>
+          <div class="chat-bubble chat-user">Mujhe 3 din se bukhaar hai aur sar mein dard ho raha hai</div>
+          <div class="chat-bubble chat-bot">Theek hai. Bukhaar kitna hai thermometer se? Kya aapko ulti ya thakaan bhi ho rahi hai?</div>
+          <div class="chat-bubble chat-user">103 degree hai. Bahut thaka hua hoon, pet bhi kharab hai</div>
+          <div class="triage-result">
+            <div class="triage-label">⚠ Triage Result — Moderate Risk</div>
+            <div class="triage-action">Possible: Typhoid / Dengue Fever</div>
+            <div class="triage-note">Blood test recommended within 24hrs. Doctor consultation available in 8 minutes. Nearest PHC: Sultanpur CHC, 4.2 km.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DEMO -->
+<section class="demo-section" id="demo">
+  <div class="section-inner">
+    <span class="section-tag">Interactive Demo</span>
+    <h2 class="section-title">Try it yourself</h2>
+    <p class="section-sub">Experience AarogyaConnect's core features — AI symptom analysis, medicine reminders, and emergency routing.</p>
+
+    <div class="demo-wrapper">
+      <div class="demo-tabs">
+        <div class="demo-tab active" onclick="switchTab(0, this)">Symptom Checker</div>
+        <div class="demo-tab" onclick="switchTab(1, this)">Medicine Reminder</div>
+        <div class="demo-tab" onclick="switchTab(2, this)">Health Stats</div>
+      </div>
+
+      <!-- SYMPTOM CHECKER -->
+      <div class="demo-panel active" id="panel-0">
+        <div class="symptom-checker">
+          <div class="sc-input">
+            <label>Age Group</label>
+            <select id="age-group">
+              <option>Child (0–12)</option>
+              <option selected>Adult (13–60)</option>
+              <option>Senior (60+)</option>
+            </select>
+            <label>Select Symptoms</label>
+            <div class="symptom-tags" id="sym-tags">
+              <div class="sym-tag" onclick="toggleSym(this)">Fever</div>
+              <div class="sym-tag" onclick="toggleSym(this)">Headache</div>
+              <div class="sym-tag" onclick="toggleSym(this)">Cough</div>
+              <div class="sym-tag" onclick="toggleSym(this)">Chest pain</div>
+              <div class="sym-tag" onclick="toggleSym(this)">Shortness of breath</div>
+              <div class="sym-tag" onclick="toggleSym(this)">Vomiting</div>
+              <div class="sym-tag" onclick="toggleSym(this)">Diarrhoea</div>
+              <div class="sym-tag" onclick="toggleSym(this)">Rash</div>
+              <div class="sym-tag" onclick="toggleSym(this)">Fatigue</div>
+              <div class="sym-tag" onclick="toggleSym(this)">Joint pain</div>
+            </div>
+            <label>Duration</label>
+            <select id="duration">
+              <option>Less than 1 day</option>
+              <option>1–3 days</option>
+              <option selected>3–7 days</option>
+              <option>More than 1 week</option>
+            </select>
+            <button class="analyze-btn" onclick="analyzeSymptoms()">Analyze Symptoms →</button>
+          </div>
+          <div class="sc-result" id="sc-result">
+            <div class="result-placeholder" id="result-placeholder">Select symptoms and click Analyze to see AI triage results</div>
+            <div class="result-content" id="result-content">
+              <div class="result-severity">
+                <span class="rsev-badge rsev-moderate" id="sev-badge">Moderate</span>
+                <span class="rsev-label" id="sev-label">Requires medical consultation</span>
+              </div>
+              <div class="result-heading" id="result-heading">Possible Dengue / Viral Fever</div>
+              <div class="result-desc" id="result-desc">Your symptoms suggest a possible vector-borne illness. Given duration and symptom combination, a blood test (CBC, NS1 Antigen) is strongly recommended within the next 12–24 hours.</div>
+              <div class="result-rec-title">Recommended Actions</div>
+              <div class="result-recs" id="result-recs">
+                <div class="result-rec-item"><span class="rec-bullet"></span>Visit nearest PHC or CHC for a blood test today</div>
+                <div class="result-rec-item"><span class="rec-bullet"></span>Stay hydrated — drink ORS or coconut water every 2 hours</div>
+                <div class="result-rec-item"><span class="rec-bullet"></span>Avoid NSAIDs (aspirin, ibuprofen) — use paracetamol only</div>
+                <div class="result-rec-item"><span class="rec-bullet"></span>Use mosquito nets and repellent</div>
+              </div>
+              <div class="result-nearby">
+                <div class="result-rec-title">Nearby Healthcare Facilities</div>
+                <div class="nearby-item">
+                  <div><div class="nearby-name">Sultanpur CHC</div><div class="nearby-type">Community Health Centre</div></div>
+                  <div class="nearby-dist">4.2 km</div>
+                </div>
+                <div class="nearby-item">
+                  <div><div class="nearby-name">Dr. Anita Sharma Clinic</div><div class="nearby-type">General Physician</div></div>
+                  <div class="nearby-dist">6.8 km</div>
+                </div>
+                <div class="nearby-item">
+                  <div><div class="nearby-name">District Hospital Ludhiana</div><div class="nearby-type">Government Hospital</div></div>
+                  <div class="nearby-dist">14.1 km</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- MEDICINE REMINDER -->
+      <div class="demo-panel" id="panel-1">
+
+        <!-- Header row -->
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;">
+          <div style="font-size:13px;color:rgba(255,255,255,0.4);letter-spacing:0.05em;text-transform:uppercase;font-weight:600">Today's Medication Schedule</div>
+          <button onclick="toggleAddForm()" id="btn-add-med" style="font-size:12px;font-weight:600;padding:6px 14px;border-radius:20px;border:1px solid rgba(13,155,110,0.4);background:rgba(13,155,110,0.15);color:#5BCEA3;cursor:pointer;transition:all 0.2s;">+ Add Medicine</button>
+        </div>
+
+        <!-- Adherence summary -->
+        <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:12px 16px;margin-bottom:14px;">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
+            <span style="font-size:12px;color:rgba(255,255,255,0.5);font-weight:500;">Today's Adherence</span>
+            <span id="adherence-pct" style="font-size:13px;font-weight:700;color:#5BCEA3;">0%</span>
+          </div>
+          <div class="adherence-bar-wrap"><div class="adherence-bar-fill" id="adherence-fill" style="width:0%"></div></div>
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-top:8px;">
+            <span id="taken-count" style="font-size:11px;color:rgba(255,255,255,0.35);">0 of 0 doses taken</span>
+            <span id="streak-badge" style="font-size:11px;font-weight:600;color:#F8C660;">🔥 0-day streak</span>
+          </div>
+        </div>
+
+        <!-- Medicine list -->
+        <div id="med-list" style="display:flex;flex-direction:column;gap:10px;"></div>
+
+        <!-- Caregiver alert banner -->
+        <div class="alert-banner hidden" id="caregiver-alert">
+          <span style="font-size:16px;">📱</span>
+          <span><b style="color:#F9917A;">Caregiver Alert Sent!</b> SMS dispatched — dose overdue by 30 min.</span>
+        </div>
+
+        <!-- Add medicine form -->
+        <div class="add-med-form hidden" id="add-med-form">
+          <div style="font-size:12px;font-weight:600;color:rgba(255,255,255,0.5);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:12px;">New Medication</div>
+          <div class="form-row">
+            <input class="med-input" id="inp-name" placeholder="Medicine name (e.g. Metformin 500mg)">
+            <input class="med-input" id="inp-condition" placeholder="Condition (e.g. Diabetes)">
+          </div>
+          <div class="form-row">
+            <input class="med-input" id="inp-dose" placeholder="Dosage instruction (e.g. After food)">
+            <input class="med-input" type="time" id="inp-time">
+          </div>
+          <div class="form-row single">
+            <select class="med-input" id="inp-freq">
+              <option value="Daily">Daily</option>
+              <option value="Twice daily">Twice daily</option>
+              <option value="Three times daily">Three times daily</option>
+              <option value="Weekly">Weekly</option>
+            </select>
+          </div>
+          <div class="form-btns">
+            <button class="btn-save-med" onclick="saveMedicine()">Save Medicine</button>
+            <button class="btn-cancel-med" onclick="toggleAddForm()">Cancel</button>
+          </div>
+        </div>
+
+        <!-- Notification toggle -->
+        <div style="margin-top:14px;background:rgba(13,155,110,0.07);border:1px solid rgba(13,155,110,0.18);border-radius:10px;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;">
+          <span style="font-size:12px;color:rgba(255,255,255,0.6);"><span style="color:#5BCEA3;font-weight:600;">SMS Reminder Active</span> — Caregiver alerted if dose missed 30 min past schedule</span>
+          <button onclick="simulateCaregiverAlert()" style="font-size:11px;padding:5px 12px;border-radius:20px;background:rgba(242,92,59,0.2);border:1px solid rgba(242,92,59,0.3);color:#F9917A;cursor:pointer;">Simulate Alert</button>
+        </div>
+      </div>
+
+      <!-- HEALTH STATS -->
+      <div class="demo-panel" id="panel-2">
+
+        <!-- Top KPI row -->
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-bottom:1rem;">
+          <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:1rem;text-align:center;">
+            <div id="kpi-triaged" style="font-family:var(--font-display);font-size:2rem;font-weight:800;color:white">0</div>
+            <div style="font-size:11px;color:rgba(255,255,255,0.4);margin-top:4px">Patients Triaged Today</div>
+            <div style="font-size:10px;color:#5BCEA3;margin-top:3px">↑ 12% vs yesterday</div>
+          </div>
+          <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:1rem;text-align:center;">
+            <div id="kpi-time" style="font-family:var(--font-display);font-size:2rem;font-weight:800;color:white">0<span style="font-size:13px;font-weight:400;color:rgba(255,255,255,0.4)">m</span></div>
+            <div style="font-size:11px;color:rgba(255,255,255,0.4);margin-top:4px">Avg Triage Time</div>
+            <div style="font-size:10px;color:#5BCEA3;margin-top:3px">↓ 31% vs last month</div>
+          </div>
+          <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:1rem;text-align:center;">
+            <div id="kpi-acc" style="font-family:var(--font-display);font-size:2rem;font-weight:800;color:white">0<span style="font-size:13px;font-weight:400;color:rgba(255,255,255,0.4)">%</span></div>
+            <div style="font-size:11px;color:rgba(255,255,255,0.4);margin-top:4px">AI Accuracy Rate</div>
+            <div style="font-size:10px;color:#5BCEA3;margin-top:3px">AIIMS Delhi validated</div>
+          </div>
+        </div>
+
+        <!-- Vital Signs Logger -->
+        <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:1rem;margin-bottom:1rem;">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+            <div style="font-size:11px;color:rgba(255,255,255,0.4);font-weight:600;letter-spacing:0.06em;text-transform:uppercase;">Log Vital Signs</div>
+            <button onclick="clearVitals()" style="font-size:10px;padding:3px 10px;border-radius:12px;background:rgba(242,92,59,0.15);border:1px solid rgba(242,92,59,0.25);color:#F9917A;cursor:pointer;">Clear History</button>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:8px;align-items:end;">
+            <div>
+              <div style="font-size:10px;color:rgba(255,255,255,0.35);margin-bottom:4px;">Blood Pressure</div>
+              <input id="inp-bp" class="med-input" placeholder="e.g. 120/80" style="padding:7px 10px;font-size:12px;">
+            </div>
+            <div>
+              <div style="font-size:10px;color:rgba(255,255,255,0.35);margin-bottom:4px;">Temperature (°F)</div>
+              <input id="inp-temp" class="med-input" placeholder="e.g. 98.6" style="padding:7px 10px;font-size:12px;">
+            </div>
+            <div>
+              <div style="font-size:10px;color:rgba(255,255,255,0.35);margin-bottom:4px;">Blood Glucose (mg/dL)</div>
+              <input id="inp-glucose" class="med-input" placeholder="e.g. 95" style="padding:7px 10px;font-size:12px;">
+            </div>
+            <button onclick="logVitals()" style="padding:7px 14px;background:var(--teal);border:none;border-radius:8px;color:white;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;">Log →</button>
+          </div>
+          <div id="vitals-history" style="margin-top:10px;display:flex;flex-direction:column;gap:6px;"></div>
+        </div>
+
+        <!-- District Filter + Chart -->
+        <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:1rem;margin-bottom:1rem;">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;flex-wrap:wrap;gap:8px;">
+            <div style="font-size:11px;color:rgba(255,255,255,0.4);font-weight:600;letter-spacing:0.05em;text-transform:uppercase;">Top Conditions — <span id="district-label">Ludhiana</span></div>
+            <div style="display:flex;gap:6px;flex-wrap:wrap;">
+              <button onclick="switchDistrict('Ludhiana',this)" class="dist-btn dist-active">Ludhiana</button>
+              <button onclick="switchDistrict('Amritsar',this)" class="dist-btn">Amritsar</button>
+              <button onclick="switchDistrict('Patiala',this)" class="dist-btn">Patiala</button>
+              <button onclick="toggleWeek(this)" id="week-toggle" style="font-size:10px;padding:3px 10px;border-radius:12px;background:rgba(79,70,229,0.2);border:1px solid rgba(79,70,229,0.3);color:#818CF8;cursor:pointer;">This Week</button>
+            </div>
+          </div>
+          <div id="chart-bars"></div>
+        </div>
+
+        <!-- Outbreak Alerts -->
+        <div id="outbreak-alerts" style="display:flex;flex-direction:column;gap:8px;margin-bottom:1rem;"></div>
+
+        <!-- Export -->
+        <button onclick="exportReport()" style="width:100%;padding:10px;border-radius:9px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);color:rgba(255,255,255,0.7);font-size:13px;font-weight:500;cursor:pointer;transition:all 0.2s;">
+          📥 Export Health Report (Simulated PDF)
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- IMPACT -->
+<section class="impact-section" id="impact">
+  <div class="section-inner">
+    <span class="section-tag">Expected Impact</span>
+    <h2 class="section-title">What we can achieve<br>at national scale</h2>
+
+    <div class="impact-grid">
+      <div class="impact-card highlight">
+        <div>
+          <div class="impact-num">2<span>cr+</span></div>
+          <div class="impact-card-title">Patients Reached in Year 1</div>
+          <div class="impact-card-desc">Targeting 500 PHC clusters across 10 states in partnership with NHM — reaching 2 crore rural citizens with AI-assisted primary triage and telemedicine access.</div>
+        </div>
+        <div>
+          <div style="display:flex;flex-direction:column;gap:1rem;">
+            <div style="display:flex;align-items:center;gap:12px;">
+              <div style="width:36px;height:36px;border-radius:9px;background:rgba(13,155,110,0.1);display:flex;align-items:center;justify-content:center;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0D9B6E" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+              </div>
+              <div style="font-size:14px;color:var(--gray-600)">40% reduction in critical case delays</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:12px;">
+              <div style="width:36px;height:36px;border-radius:9px;background:rgba(13,155,110,0.1);display:flex;align-items:center;justify-content:center;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0D9B6E" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+              </div>
+              <div style="font-size:14px;color:var(--gray-600)">70% medicine adherence improvement</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:12px;">
+              <div style="width:36px;height:36px;border-radius:9px;background:rgba(13,155,110,0.1);display:flex;align-items:center;justify-content:center;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0D9B6E" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+              </div>
+              <div style="font-size:14px;color:var(--gray-600)">Compliant with Ayushman Bharat Digital Mission</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="impact-card">
+        <div class="impact-num">₹4,200<span style="font-size:1.5rem">Cr</span></div>
+        <div class="impact-card-title">Healthcare Cost Savings</div>
+        <div class="impact-card-desc">By preventing late-stage hospitalizations and enabling early diagnosis, AarogyaConnect can reduce out-of-pocket healthcare costs per family by an estimated ₹18,000/year.</div>
+      </div>
+
+      <div class="impact-card">
+        <div class="impact-num">3<span style="font-size:1.5rem">×</span></div>
+        <div class="impact-card-title">Doctor Reach Multiplied</div>
+        <div class="impact-card-desc">AI triage pre-screens and prioritizes patients, allowing a single doctor to serve 3x more patients effectively — without increasing workload or burnout.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TECH STACK -->
+<section class="tech-section">
+  <div class="section-inner">
+    <span class="section-tag">Technology</span>
+    <h2 class="section-title">Built on proven,<br>scalable infrastructure</h2>
+    <div class="tech-grid">
+      <div class="tech-card">
+        <div class="tech-icon-wrap" style="background:#EEF2FF;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#4F46E5" stroke-width="2"><path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
+        </div>
+        <div class="tech-name">Clinical AI / NLP</div>
+        <div class="tech-desc">Fine-tuned LLM on Indian disease patterns, trained with AIIMS & ICMR datasets</div>
+      </div>
+      <div class="tech-card">
+        <div class="tech-icon-wrap" style="background:var(--teal-light);">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#0D9B6E" stroke-width="2"><path d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"/></svg>
+        </div>
+        <div class="tech-name">AWS / Azure India</div>
+        <div class="tech-desc">Regional data residency, HIPAA-aligned, auto-scaling for rural spikes</div>
+      </div>
+      <div class="tech-card">
+        <div class="tech-icon-wrap" style="background:#FEF3C7;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#D97706" stroke-width="2"><path d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+        </div>
+        <div class="tech-name">WhatsApp / SMS API</div>
+        <div class="tech-desc">Zero app installation needed. Works on basic feature phones via SMS fallback</div>
+      </div>
+      <div class="tech-card">
+        <div class="tech-icon-wrap" style="background:var(--coral-light);">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#F25C3B" stroke-width="2"><path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/></svg>
+        </div>
+        <div class="tech-name">Offline PWA + GPS</div>
+        <div class="tech-desc">Service Worker caches critical routes & maps. Works in zero-connectivity zones</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="cta-inner">
+    <div style="display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:8px;padding:6px 14px;font-size:12px;color:rgba(255,255,255,0.8);margin-bottom:1.5rem;font-weight:500">
+      National Health Innovation Hackathon 2025 — Finalist Submission
+    </div>
+    <h2 class="cta-title">Let's bridge India's<br>rural health divide — together</h2>
+    <p class="cta-sub">AarogyaConnect is ready for pilot deployment. We are seeking government partnerships, clinical validation collaborators, and impact investors.</p>
+    <div class="cta-actions">
+      <a href="#demo" class="btn-white">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+        View Live Demo
+      </a>
+      <a href="#" class="btn-outline" style="color:rgba(255,255,255,0.8)">Download Pitch Deck</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-logo">Aarogya<span>Connect</span></div>
+      <div class="footer-tagline">AI-Powered Rural Health Intelligence Platform</div>
+    </div>
+    <div class="hackathon-badge">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#5BCEA3" stroke-width="2"><path d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/></svg>
+      National Hackathon 2025 Entry
+    </div>
+    <div class="footer-right">
+      <div>Built with ♥ for India's 700M rural citizens</div>
+      <div style="margin-top:4px;">Team AarogyaConnect</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+const featureContents = [
+  {
+    title: "AI Triage Assistant",
+    html: `<div class="chat-bubble chat-bot">Namaste! Kya aap mujhe batayenge aap kaisa feel kar rahe hain? <span style="font-size:11px;opacity:0.5">(How are you feeling today?)</span></div>
+    <div class="chat-bubble chat-user">Mujhe 3 din se bukhaar hai aur sar mein dard ho raha hai</div>
+    <div class="chat-bubble chat-bot">Theek hai. Bukhaar kitna hai? Kya ulti ya thakaan bhi ho rahi hai?</div>
+    <div class="chat-bubble chat-user">103 degree hai. Bahut thaka hua hoon, pet bhi kharab hai</div>
+    <div class="triage-result"><div class="triage-label">⚠ Triage Result — Moderate Risk</div><div class="triage-action">Possible: Typhoid / Dengue Fever</div><div class="triage-note">Blood test recommended within 24hrs. Doctor available in 8 min. Nearest PHC: Sultanpur CHC, 4.2 km.</div></div>`
+  },
+  {
+    title: "Telemedicine Console",
+    html: `<div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:1.25rem;margin-bottom:12px;display:flex;align-items:center;gap:1rem;">
+    <div style="width:48px;height:48px;border-radius:50%;background:rgba(13,155,110,0.2);display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-weight:700;color:#5BCEA3;font-size:18px;">AS</div>
+    <div><div style="font-size:14px;font-weight:500;color:rgba(255,255,255,0.9)">Dr. Anita Sharma</div><div style="font-size:12px;color:rgba(255,255,255,0.4)">MBBS, General Physician · 4.8★ · 12 years exp</div></div>
+    <div style="margin-left:auto;display:flex;align-items:center;gap:5px;font-size:12px;color:#5BCEA3;font-weight:600;"><span style="width:6px;height:6px;border-radius:50%;background:#5BCEA3;display:inline-block;"></span>Available Now</div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+    <div style="background:rgba(13,155,110,0.12);border:1px solid rgba(13,155,110,0.25);border-radius:10px;padding:12px;text-align:center;cursor:pointer;"><div style="font-size:22px;margin-bottom:4px;">📹</div><div style="font-size:13px;color:rgba(255,255,255,0.8);font-weight:500">Video Call</div><div style="font-size:11px;color:rgba(255,255,255,0.4)">Requires 4G</div></div>
+    <div style="background:rgba(242,92,59,0.12);border:1px solid rgba(242,92,59,0.25);border-radius:10px;padding:12px;text-align:center;cursor:pointer;"><div style="font-size:22px;margin-bottom:4px;">📞</div><div style="font-size:13px;color:rgba(255,255,255,0.8);font-weight:500">Voice Only</div><div style="font-size:11px;color:rgba(255,255,255,0.4)">Works on 2G</div></div>
+    </div>`
+  },
+  {
+    title: "Emergency Routing Map",
+    html: `<div style="background:rgba(11,31,58,0.5);border-radius:10px;padding:1rem;font-size:13px;margin-bottom:12px;color:rgba(255,255,255,0.7);border:1px solid rgba(242,92,59,0.3)">🚨 <b style="color:#F9917A">Critical Alert Sent</b> — Patient location shared with District Emergency Coordinator</div>
+    <div style="display:flex;flex-direction:column;gap:8px;">
+    <div style="display:flex;align-items:center;justify-content:space-between;background:rgba(255,255,255,0.04);border-radius:9px;padding:10px 14px;border:1px solid rgba(255,255,255,0.08);">
+    <div><div style="font-size:13px;font-weight:500;color:rgba(255,255,255,0.9)">Sultanpur CHC</div><div style="font-size:11px;color:rgba(255,255,255,0.35)">Emergency dept. open 24/7</div></div>
+    <div style="font-size:12px;color:#5BCEA3;font-weight:600">4.2 km · 9 min</div>
+    </div>
+    <div style="display:flex;align-items:center;justify-content:space-between;background:rgba(255,255,255,0.04);border-radius:9px;padding:10px 14px;border:1px solid rgba(255,255,255,0.08);">
+    <div><div style="font-size:13px;font-weight:500;color:rgba(255,255,255,0.9)">Civil Hospital Ludhiana</div><div style="font-size:11px;color:rgba(255,255,255,0.35)">Full trauma & ICU available</div></div>
+    <div style="font-size:12px;color:#F8C660;font-weight:600">14.1 km · 28 min</div>
+    </div>
+    </div>
+    <div style="margin-top:12px;background:rgba(13,155,110,0.1);border:1px solid rgba(13,155,110,0.2);border-radius:9px;padding:10px 14px;font-size:12px;color:rgba(255,255,255,0.7)">Offline route cached. Works without internet. Directions sent via SMS to patient's registered number.</div>`
+  },
+  {
+    title: "Medicine Reminder System",
+    html: `<div style="font-size:12px;color:rgba(255,255,255,0.4);margin-bottom:12px;letter-spacing:0.06em;text-transform:uppercase;font-weight:600">Active Reminders — Ramesh K., 56 (Diabetic)</div>
+    <div style="display:flex;flex-direction:column;gap:10px;">
+    <div class="med-card"><div class="med-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M9 3H5a2 2 0 00-2 2v4m6-6h10a2 2 0 012 2v4M9 3v18m0 0h10a2 2 0 002-2V9M9 21H5a2 2 0 01-2-2V9m0 0h18"/></svg></div><div><div class="med-name">Metformin 500mg</div><div class="med-dose">After breakfast · Daily</div></div><div class="med-time">✓ Taken</div></div>
+    <div class="med-card"><div class="med-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div><div><div class="med-name">Glipizide 5mg</div><div class="med-dose">Before dinner · Daily</div></div><div class="med-time" style="color:#F8C660;background:rgba(245,166,35,0.1);border-color:rgba(245,166,35,0.2)">7:00 PM</div></div>
+    </div>
+    <div style="margin-top:12px;padding:12px;background:rgba(255,255,255,0.04);border-radius:10px;font-size:12px;color:rgba(255,255,255,0.5);border:1px solid rgba(255,255,255,0.06)">Son (Ravi Kumar) will receive WhatsApp alert if Glipizide not marked by 7:30 PM · 97-day streak 🔥</div>`
+  },
+  {
+    title: "Public Health Dashboard",
+    html: `<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:14px;">
+    <div style="background:rgba(242,92,59,0.12);border:1px solid rgba(242,92,59,0.2);border-radius:10px;padding:12px;text-align:center;"><div style="font-family:var(--font-display);font-size:1.6rem;font-weight:800;color:#F9917A">14</div><div style="font-size:11px;color:rgba(255,255,255,0.4);margin-top:3px">Fever Cluster</div><div style="font-size:10px;color:#F9917A;margin-top:2px">⚠ Unusual spike</div></div>
+    <div style="background:rgba(245,166,35,0.1);border:1px solid rgba(245,166,35,0.2);border-radius:10px;padding:12px;text-align:center;"><div style="font-family:var(--font-display);font-size:1.6rem;font-weight:800;color:#F8C660">6</div><div style="font-size:11px;color:rgba(255,255,255,0.4);margin-top:3px">Diarrhoea Cases</div><div style="font-size:10px;color:#F8C660;margin-top:2px">Monitor closely</div></div>
+    <div style="background:rgba(13,155,110,0.1);border:1px solid rgba(13,155,110,0.2);border-radius:10px;padding:12px;text-align:center;"><div style="font-family:var(--font-display);font-size:1.6rem;font-weight:800;color:#5BCEA3">247</div><div style="font-size:11px;color:rgba(255,255,255,0.4);margin-top:3px">Total Checked</div><div style="font-size:10px;color:#5BCEA3;margin-top:2px">Normal range</div></div>
+    </div>
+    <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:12px;font-size:13px;color:rgba(255,255,255,0.7);">
+    <div style="font-size:11px;color:rgba(255,255,255,0.4);margin-bottom:8px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em">AI Outbreak Alert</div>
+    Unusual concentration of fever + myalgia symptoms detected in Block C, Ludhiana West (14 cases in 48hrs). Possible early dengue cluster. Recommended: Deploy fogging team and increase NS1 testing at Sultanpur CHC.
+    </div>`
+  }
+];
+
+function setFeature(idx, el) {
+  document.querySelectorAll('.feature-item').forEach(f => f.classList.remove('active'));
+  el.classList.add('active');
+  const content = featureContents[idx];
+  document.getElementById('fv-title').textContent = content.title;
+  document.getElementById('fv-content').innerHTML = content.html;
+}
+
+function switchTab(idx, el) {
+  document.querySelectorAll('.demo-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.demo-panel').forEach(p => p.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('panel-' + idx).classList.add('active');
+  if (idx === 2) { buildChart(); animateKPIs(); renderVitals(); }
+  if (idx === 1) renderMeds();
+}
+
+function toggleSym(el) { el.classList.toggle('selected'); }
+
+/* ========== MEDICINE REMINDER ENGINE ========== */
+const MED_KEY = 'aarogya_meds';
+const STREAK_KEY = 'aarogya_streak';
+const LAST_DONE_KEY = 'aarogya_last_done';
+
+function getMeds() {
+  try { return JSON.parse(localStorage.getItem(MED_KEY)) || getDefaultMeds(); }
+  catch(e) { return getDefaultMeds(); }
+}
+function saveMeds(meds) { localStorage.setItem(MED_KEY, JSON.stringify(meds)); }
+
+function getDefaultMeds() {
+  return [
+    { id: 1, name: 'Metformin 500mg', condition: 'Diabetes', dose: 'After breakfast', time: '08:00', freq: 'Daily', taken: false },
+    { id: 2, name: 'Amlodipine 5mg', condition: 'Hypertension', dose: 'Once daily', time: '14:00', freq: 'Daily', taken: false },
+    { id: 3, name: 'Aspirin 75mg', condition: 'Cardiac', dose: 'After dinner', time: '20:00', freq: 'Daily', taken: false }
+  ];
+}
+
+function formatTime12(t) {
+  if (!t) return '';
+  const [h, m] = t.split(':').map(Number);
+  const ampm = h >= 12 ? 'PM' : 'AM';
+  return `${h % 12 || 12}:${String(m).padStart(2,'0')} ${ampm}`;
+}
+
+function nextDoseLabel(timeStr) {
+  if (!timeStr) return '';
+  const now = new Date();
+  const [h, m] = timeStr.split(':').map(Number);
+  const target = new Date(now); target.setHours(h, m, 0, 0);
+  let diff = Math.round((target - now) / 60000);
+  if (diff < 0) diff += 1440;
+  if (diff === 0) return 'Now';
+  if (diff < 60) return `in ${diff}m`;
+  return `in ${Math.floor(diff/60)}h ${diff%60}m`;
+}
+
+function renderMeds() {
+  const meds = getMeds();
+  const list = document.getElementById('med-list');
+  if (!list) return;
+
+  if (meds.length === 0) {
+    list.innerHTML = '<div style="text-align:center;color:rgba(255,255,255,0.25);padding:2rem;font-size:13px;">No medicines added yet. Click "+ Add Medicine".</div>';
+    updateAdherence(meds); return;
+  }
+
+  // Sort: untaken first, then by time
+  const sorted = [...meds].sort((a,b) => a.taken - b.taken || a.time.localeCompare(b.time));
+
+  list.innerHTML = sorted.map(med => {
+    const isPast = isPastDue(med.time);
+    const timeColor = med.taken ? '#5BCEA3' : isPast ? '#F9917A' : '#F8C660';
+    const timeBg   = med.taken ? 'rgba(13,155,110,0.15)' : isPast ? 'rgba(242,92,59,0.1)' : 'rgba(245,166,35,0.1)';
+    const timeBorder= med.taken ? 'rgba(13,155,110,0.3)' : isPast ? 'rgba(242,92,59,0.25)' : 'rgba(245,166,35,0.2)';
+    const timeLabel = med.taken ? `${formatTime12(med.time)} ✓` : (isPast ? `${formatTime12(med.time)} ⚠` : `${formatTime12(med.time)} · ${nextDoseLabel(med.time)}`);
+    return `
+    <div class="med-card ${med.taken ? 'taken' : ''}" id="mcard-${med.id}">
+      <div class="med-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+          <path d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/>
+        </svg>
+      </div>
+      <div style="flex:1;min-width:0;">
+        <div class="med-name">${med.name}</div>
+        <div class="med-dose">${med.condition} — ${med.dose} · ${med.freq}</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;flex-shrink:0;">
+        <div style="font-size:11px;font-weight:600;color:${timeColor};background:${timeBg};border:1px solid ${timeBorder};padding:4px 10px;border-radius:20px;white-space:nowrap;">${timeLabel}</div>
+        <button class="btn-take ${med.taken ? 'taken-btn' : ''}" onclick="toggleTaken(${med.id})">${med.taken ? 'Undo' : 'Mark Taken'}</button>
+        <button class="btn-del" onclick="deleteMed(${med.id})" title="Remove">✕</button>
+      </div>
+    </div>`;
+  }).join('');
+
+  updateAdherence(meds);
+}
+
+function isPastDue(timeStr) {
+  if (!timeStr) return false;
+  const now = new Date();
+  const [h, m] = timeStr.split(':').map(Number);
+  return now.getHours() > h || (now.getHours() === h && now.getMinutes() > m);
+}
+
+function updateAdherence(meds) {
+  if (!meds.length) { setAdherenceUI(0, 0, 0); return; }
+  const taken = meds.filter(m => m.taken).length;
+  const pct = Math.round((taken / meds.length) * 100);
+  setAdherenceUI(pct, taken, meds.length);
+
+  // Update streak
+  if (pct === 100) {
+    const today = new Date().toDateString();
+    const lastDone = localStorage.getItem(LAST_DONE_KEY);
+    if (lastDone !== today) {
+      const streak = (parseInt(localStorage.getItem(STREAK_KEY)) || 0) + 1;
+      localStorage.setItem(STREAK_KEY, streak);
+      localStorage.setItem(LAST_DONE_KEY, today);
+    }
+  }
+  const streak = parseInt(localStorage.getItem(STREAK_KEY)) || 0;
+  const sb = document.getElementById('streak-badge');
+  if (sb) sb.textContent = `🔥 ${streak}-day streak`;
+}
+
+function setAdherenceUI(pct, taken, total) {
+  const fill = document.getElementById('adherence-fill');
+  const pctEl = document.getElementById('adherence-pct');
+  const countEl = document.getElementById('taken-count');
+  if (fill) fill.style.width = pct + '%';
+  if (pctEl) { pctEl.textContent = pct + '%'; pctEl.style.color = pct === 100 ? '#5BCEA3' : pct > 50 ? '#F8C660' : '#F9917A'; }
+  if (countEl) countEl.textContent = `${taken} of ${total} doses taken`;
+}
+
+function toggleTaken(id) {
+  const meds = getMeds();
+  const med = meds.find(m => m.id === id);
+  if (!med) return;
+  med.taken = !med.taken;
+  saveMeds(meds);
+  renderMeds();
+}
+
+function deleteMed(id) {
+  const card = document.getElementById('mcard-' + id);
+  if (card) { card.classList.add('removing'); setTimeout(() => { const meds = getMeds().filter(m => m.id !== id); saveMeds(meds); renderMeds(); }, 300); }
+}
+
+function toggleAddForm() {
+  const form = document.getElementById('add-med-form');
+  if (!form) return;
+  form.classList.toggle('hidden');
+  if (!form.classList.contains('hidden')) {
+    // Set default time to current time + 1h
+    const d = new Date(); d.setHours(d.getHours()+1, 0);
+    document.getElementById('inp-time').value = `${String(d.getHours()).padStart(2,'0')}:00`;
+  }
+}
+
+function saveMedicine() {
+  const name = document.getElementById('inp-name').value.trim();
+  const condition = document.getElementById('inp-condition').value.trim();
+  const dose = document.getElementById('inp-dose').value.trim();
+  const time = document.getElementById('inp-time').value;
+  const freq = document.getElementById('inp-freq').value;
+  if (!name) { alert('Please enter a medicine name.'); return; }
+  const meds = getMeds();
+  const newId = meds.length ? Math.max(...meds.map(m=>m.id)) + 1 : 1;
+  meds.push({ id: newId, name, condition: condition||'General', dose: dose||'As prescribed', time: time||'08:00', freq, taken: false });
+  saveMeds(meds);
+  // Reset form
+  ['inp-name','inp-condition','inp-dose'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('add-med-form').classList.add('hidden');
+  renderMeds();
+}
+
+function simulateCaregiverAlert() {
+  const alert = document.getElementById('caregiver-alert');
+  if (!alert) return;
+  alert.classList.remove('hidden');
+  setTimeout(() => alert.classList.add('hidden'), 5000);
+}
+
+// Init on page load
+document.addEventListener('DOMContentLoaded', () => { renderMeds(); });
+
+function analyzeSymptoms() {
+  const selected = Array.from(document.querySelectorAll('.sym-tag.selected')).map(t => t.textContent);
+  const ph = document.getElementById('result-placeholder');
+  const rc = document.getElementById('result-content');
+  if (selected.length === 0) { alert('Please select at least one symptom.'); return; }
+  ph.style.display = 'none';
+  rc.style.display = 'block';
+
+  const hasCritical = selected.includes('Chest pain') || selected.includes('Shortness of breath');
+  const hasModerate = selected.includes('Fever') || selected.includes('Vomiting') || selected.includes('Diarrhoea');
+  const badge = document.getElementById('sev-badge');
+  const label = document.getElementById('sev-label');
+  const heading = document.getElementById('result-heading');
+  const desc = document.getElementById('result-desc');
+  const recs = document.getElementById('result-recs');
+
+  if (hasCritical) {
+    badge.textContent = 'Critical'; badge.className = 'rsev-badge'; badge.style.cssText = 'background:rgba(242,92,59,0.2);color:#F9917A;border:1px solid rgba(242,92,59,0.3);font-size:12px;font-weight:700;padding:5px 14px;border-radius:20px;letter-spacing:0.05em;text-transform:uppercase;';
+    label.textContent = 'Seek emergency care immediately';
+    heading.textContent = 'Possible Cardiac / Respiratory Emergency';
+    desc.textContent = 'Symptoms suggest a potentially life-threatening condition. Do not delay — go to the nearest emergency facility immediately or call 108.';
+    recs.innerHTML = '<div class="result-rec-item"><span class="rec-bullet" style="background:#F25C3B"></span>Call 108 (National Emergency) right now</div><div class="result-rec-item"><span class="rec-bullet" style="background:#F25C3B"></span>Do not eat or drink anything</div><div class="result-rec-item"><span class="rec-bullet" style="background:#F25C3B"></span>Sit upright, loosen tight clothing</div>';
+  } else if (hasModerate) {
+    badge.textContent = 'Moderate'; badge.className = 'rsev-badge rsev-moderate'; badge.style.cssText = '';
+    label.textContent = 'Requires medical consultation within 24hrs';
+    heading.textContent = 'Possible ' + (selected.includes('Fever') && selected.includes('Joint pain') ? 'Chikungunya' : selected.includes('Diarrhoea') ? 'Gastroenteritis / Typhoid' : 'Viral Infection');
+    desc.textContent = 'Based on your symptoms and their duration, a medical consultation is recommended. Avoid self-medicating with antibiotics.';
+    recs.innerHTML = '<div class="result-rec-item"><span class="rec-bullet"></span>Visit nearest PHC or CHC within 24 hours</div><div class="result-rec-item"><span class="rec-bullet"></span>Stay hydrated — drink ORS every 2 hours</div><div class="result-rec-item"><span class="rec-bullet"></span>Take only paracetamol for fever relief</div><div class="result-rec-item"><span class="rec-bullet"></span>Monitor temperature every 4 hours</div>';
+  } else {
+    badge.textContent = 'Stable'; badge.style.cssText = 'background:rgba(13,155,110,0.2);color:#5BCEA3;border:1px solid rgba(13,155,110,0.3);font-size:12px;font-weight:700;padding:5px 14px;border-radius:20px;letter-spacing:0.05em;text-transform:uppercase;';
+    label.textContent = 'Home care recommended';
+    heading.textContent = 'Mild Condition — Self-Care Advised';
+    desc.textContent = 'Your symptoms appear mild. Home care and monitoring should be sufficient. Visit a doctor if symptoms worsen after 48 hours.';
+    recs.innerHTML = '<div class="result-rec-item"><span class="rec-bullet"></span>Rest well and stay hydrated</div><div class="result-rec-item"><span class="rec-bullet"></span>Eat light, easily digestible food</div><div class="result-rec-item"><span class="rec-bullet"></span>Monitor for worsening symptoms</div>';
+  }
+}
+
+/* ===== HEALTH STATS ENGINE ===== */
+const VITALS_KEY = 'aarogya_vitals';
+let hsWeek = 'this';
+const hsDistricts = {
+  Ludhiana: [
+    { name: 'Viral Fever', count: 87, color: '#F25C3B' },
+    { name: 'Respiratory', count: 54, color: '#F5A623' },
+    { name: 'Gastro', count: 41, color: '#0D9B6E' },
+    { name: 'Hypertension', count: 33, color: '#4F46E5' },
+    { name: 'Joint Pain', count: 22, color: '#5BCEA3' }
+  ],
+  Amritsar: [
+    { name: 'Dengue', count: 63, color: '#F25C3B' },
+    { name: 'Viral Fever', count: 50, color: '#F5A623' },
+    { name: 'Diarrhoea', count: 38, color: '#0D9B6E' },
+    { name: 'Diabetes', count: 29, color: '#4F46E5' },
+    { name: 'Anaemia', count: 18, color: '#5BCEA3' }
+  ],
+  Patiala: [
+    { name: 'Respiratory', count: 71, color: '#F25C3B' },
+    { name: 'TB', count: 44, color: '#F5A623' },
+    { name: 'Malaria', count: 35, color: '#0D9B6E' },
+    { name: 'Cardiac', count: 27, color: '#4F46E5' },
+    { name: 'Skin Inf.', count: 16, color: '#5BCEA3' }
+  ]
+};
+const hsOutbreaks = {
+  Ludhiana: { label: '⚠ Dengue Cluster', color: '#F9917A', bg: 'rgba(242,92,59,0.12)', border: 'rgba(242,92,59,0.3)', msg: '14 fever+myalgia cases in 48hrs in Block C. Deploy fogging team.' },
+  Amritsar: { label: '⚠ Dengue Spike', color: '#F8C660', bg: 'rgba(245,166,35,0.1)', border: 'rgba(245,166,35,0.25)', msg: '63 dengue cases up 40% this week. NS1 testing recommended at all PHCs.' },
+  Patiala: { label: '✓ Stable', color: '#5BCEA3', bg: 'rgba(13,155,110,0.1)', border: 'rgba(13,155,110,0.25)', msg: 'No unusual clusters detected. Respiratory cases within seasonal norms.' }
+};
+let hsCurrentDistrict = 'Ludhiana';
+
+function buildChart() {
+  const data = hsDistricts[hsCurrentDistrict] || hsDistricts.Ludhiana;
+  const multiplier = hsWeek === 'this' ? 1 : 0.78;
+  const container = document.getElementById('chart-bars');
+  if (!container) return;
+  const max = Math.max(...data.map(c => c.count));
+  container.innerHTML = data.map(c => {
+    const val = Math.round(c.count * multiplier);
+    return `<div style="display:flex;align-items:center;gap:10px;margin-bottom:9px;">
+      <div style="font-size:11px;color:rgba(255,255,255,0.5);min-width:80px;text-align:right">${c.name}</div>
+      <div style="flex:1;height:18px;background:rgba(255,255,255,0.06);border-radius:4px;overflow:hidden;">
+        <div style="height:100%;width:0%;background:${c.color};border-radius:4px;opacity:0.85;transition:width 0.9s ease;" data-w="${Math.round(val/max*100)}"></div>
+      </div>
+      <div style="font-size:11px;font-weight:600;color:rgba(255,255,255,0.7);min-width:26px">${val}</div>
+    </div>`;
+  }).join('');
+  // Animate bars
+  setTimeout(() => container.querySelectorAll('[data-w]').forEach(el => el.style.width = el.dataset.w + '%'), 30);
+  renderOutbreaks();
+}
+
+function renderOutbreaks() {
+  const box = document.getElementById('outbreak-alerts');
+  if (!box) return;
+  const o = hsOutbreaks[hsCurrentDistrict];
+  box.innerHTML = `<div style="background:${o.bg};border:1px solid ${o.border};border-radius:10px;padding:10px 14px;">
+    <div style="font-size:11px;font-weight:700;color:${o.color};letter-spacing:0.06em;text-transform:uppercase;margin-bottom:4px;">AI Outbreak Alert — ${hsCurrentDistrict}</div>
+    <div style="font-size:12px;color:rgba(255,255,255,0.7);">${o.msg}</div>
+  </div>`;
+}
+
+function switchDistrict(name, btn) {
+  hsCurrentDistrict = name;
+  document.getElementById('district-label').textContent = name;
+  document.querySelectorAll('.dist-btn').forEach(b => b.classList.remove('dist-active'));
+  btn.classList.add('dist-active');
+  buildChart();
+  animateKPIs();
+}
+
+function toggleWeek(btn) {
+  hsWeek = hsWeek === 'this' ? 'last' : 'this';
+  btn.textContent = hsWeek === 'this' ? 'This Week' : 'Last Week';
+  buildChart();
+}
+
+function animateKPIs() {
+  const targets = { 'kpi-triaged': 247, 'kpi-time': 8, 'kpi-acc': 94 };
+  Object.entries(targets).forEach(([id, target]) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    let cur = 0; const step = Math.ceil(target / 30);
+    const t = setInterval(() => {
+      cur = Math.min(cur + step, target);
+      const unit = id === 'kpi-time' ? '<span style="font-size:13px;font-weight:400;color:rgba(255,255,255,0.4)">m</span>' : id === 'kpi-acc' ? '<span style="font-size:13px;font-weight:400;color:rgba(255,255,255,0.4)">%</span>' : '';
+      el.innerHTML = cur + unit;
+      if (cur >= target) clearInterval(t);
+    }, 30);
+  });
+}
+
+/* Vitals logger */
+function getVitals() { try { return JSON.parse(localStorage.getItem(VITALS_KEY)) || []; } catch(e) { return []; } }
+function saveVitals(v) { localStorage.setItem(VITALS_KEY, JSON.stringify(v.slice(-5))); }
+
+function logVitals() {
+  const bp = document.getElementById('inp-bp').value.trim();
+  const temp = document.getElementById('inp-temp').value.trim();
+  const glucose = document.getElementById('inp-glucose').value.trim();
+  if (!bp && !temp && !glucose) { alert('Enter at least one vital.'); return; }
+  const entry = { time: new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'}), bp, temp, glucose };
+  const v = getVitals(); v.push(entry); saveVitals(v);
+  ['inp-bp','inp-temp','inp-glucose'].forEach(id => { const e = document.getElementById(id); if(e) e.value=''; });
+  renderVitals();
+}
+
+function renderVitals() {
+  const box = document.getElementById('vitals-history');
+  if (!box) return;
+  const v = getVitals();
+  if (!v.length) { box.innerHTML = ''; return; }
+  box.innerHTML = [...v].reverse().map(e => {
+    const tempNum = parseFloat(e.temp);
+    const tempColor = !e.temp ? '' : tempNum > 100.4 ? '#F9917A' : '#5BCEA3';
+    const bpFlag = e.bp && e.bp.includes('/') ? (parseInt(e.bp)>130?'⚠':'✓') : '';
+    return `<div style="display:flex;gap:12px;align-items:center;background:rgba(255,255,255,0.04);border-radius:8px;padding:7px 12px;font-size:11px;">
+      <span style="color:rgba(255,255,255,0.3);min-width:44px;">${e.time}</span>
+      ${e.bp ? `<span style="color:rgba(255,255,255,0.7);">BP: <b>${e.bp}</b> ${bpFlag}</span>` : ''}
+      ${e.temp ? `<span style="color:${tempColor||'rgba(255,255,255,0.7)'}">Temp: <b>${e.temp}°F</b>${tempNum>100.4?' 🔥':''}</span>` : ''}
+      ${e.glucose ? `<span style="color:rgba(255,255,255,0.7);">Glucose: <b>${e.glucose}</b> mg/dL</span>` : ''}
+    </div>`;
+  }).join('');
+}
+
+function clearVitals() { localStorage.removeItem(VITALS_KEY); renderVitals(); }
+
+function exportReport() {
+  const d = new Date().toLocaleDateString('en-IN');
+  const meds = getMeds ? getMeds() : [];
+  const vitals = getVitals();
+  const lines = [
+    'AarogyaConnect Health Report — ' + d,
+    '=====================================',
+    'District: ' + hsCurrentDistrict,
+    'Patients Triaged Today: 247',
+    'Avg Triage Time: 8.3 min',
+    'AI Accuracy: 94%',
+    '',
+    'Active Medications: ' + meds.length,
+    ...meds.map(m => `  - ${m.name} (${m.condition}) @ ${m.time}`),
+    '',
+    'Vitals Log (last 5):',
+    ...vitals.map(v => `  [${v.time}] BP:${v.bp||'-'} Temp:${v.temp||'-'} Glucose:${v.glucose||'-'}`),
+    '',
+    'Generated by AarogyaConnect AI Platform'
+  ];
+  const blob = new Blob([lines.join('\n')], {type:'text/plain'});
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
+  a.download = 'AarogyaConnect_Report_' + d.replace(/\//g,'-') + '.txt';
+  a.click();
+}
+
+/* ========== LANGUAGE SYSTEM ========== */
+const allLanguages = [
+  { code: 'en', name: 'English', native: 'English', region: 'Worldwide' },
+  { code: 'es', name: 'Spanish', native: 'Español', region: 'Spain, Latin America' },
+  { code: 'fr', name: 'French', native: 'Français', region: 'France, Europe' },
+  { code: 'de', name: 'German', native: 'Deutsch', region: 'Germany, Austria' },
+  { code: 'it', name: 'Italian', native: 'Italiano', region: 'Italy, Europe' },
+  { code: 'pt', name: 'Portuguese', native: 'Português', region: 'Portugal, Brazil' },
+  { code: 'ru', name: 'Russian', native: 'Русский', region: 'Russia, Eastern Europe' },
+  { code: 'zh', name: 'Chinese (Simplified)', native: '简体中文', region: 'China' },
+  { code: 'ja', name: 'Japanese', native: '日本語', region: 'Japan' },
+  { code: 'ko', name: 'Korean', native: '한국어', region: 'South Korea' },
+  { code: 'ar', name: 'Arabic', native: 'العربية', region: 'Middle East, North Africa' },
+  { code: 'th', name: 'Thai', native: 'ไทย', region: 'Thailand' },
+  { code: 'vi', name: 'Vietnamese', native: 'Tiếng Việt', region: 'Vietnam' },
+  { code: 'id', name: 'Indonesian', native: 'Bahasa Indonesia', region: 'Indonesia' },
+  { code: 'ms', name: 'Malay', native: 'Bahasa Melayu', region: 'Malaysia' },
+  { code: 'fil', name: 'Filipino', native: 'Filipino', region: 'Philippines' },
+  { code: 'hi', name: 'Hindi', native: 'हिन्दी', region: 'India' },
+  { code: 'ta', name: 'Tamil', native: 'தமிழ்', region: 'India, Sri Lanka' },
+  { code: 'pa', name: 'Punjabi', native: 'ਪੰਜਾਬੀ', region: 'India, Pakistan' },
+  { code: 'bn', name: 'Bengali', native: 'বাংলা', region: 'India, Bangladesh' },
+  { code: 'te', name: 'Telugu', native: 'తెలుగు', region: 'India' },
+  { code: 'mr', name: 'Marathi', native: 'मराठी', region: 'India' },
+  { code: 'gu', name: 'Gujarati', native: 'ગુજરાતી', region: 'India' },
+  { code: 'kn', name: 'Kannada', native: 'ಕನ್ನಡ', region: 'India' },
+  { code: 'ml', name: 'Malayalam', native: 'മലയാളം', region: 'India' },
+  { code: 'ur', name: 'Urdu', native: 'اردو', region: 'Pakistan, India' },
+  { code: 'or', name: 'Odia', native: 'ଓଡ଼ିଆ', region: 'India' },
+  { code: 'nl', name: 'Dutch', native: 'Nederlands', region: 'Netherlands, Belgium' },
+  { code: 'pl', name: 'Polish', native: 'Polski', region: 'Poland, Eastern Europe' },
+  { code: 'sv', name: 'Swedish', native: 'Svenska', region: 'Sweden, Scandinavia' },
+  { code: 'tr', name: 'Turkish', native: 'Türkçe', region: 'Turkey' },
+  { code: 'el', name: 'Greek', native: 'Ελληνικά', region: 'Greece' },
+  { code: 'hu', name: 'Hungarian', native: 'Magyar', region: 'Hungary' },
+  { code: 'cs', name: 'Czech', native: 'Čeština', region: 'Czech Republic' },
+  { code: 'ro', name: 'Romanian', native: 'Română', region: 'Romania' },
+  { code: 'bg', name: 'Bulgarian', native: 'Български', region: 'Bulgaria' },
+  { code: 'uk', name: 'Ukrainian', native: 'Українська', region: 'Ukraine' },
+  { code: 'he', name: 'Hebrew', native: 'עברית', region: 'Israel' },
+  { code: 'fa', name: 'Persian', native: 'فارسی', region: 'Iran' },
+  { code: 'no', name: 'Norwegian', native: 'Norsk', region: 'Norway' },
+  { code: 'da', name: 'Danish', native: 'Dansk', region: 'Denmark' },
+  { code: 'fi', name: 'Finnish', native: 'Suomi', region: 'Finland' },
+  { code: 'mk', name: 'Macedonian', native: 'Македонски', region: 'North Macedonia' },
+  { code: 'sr', name: 'Serbian', native: 'Српски', region: 'Serbia' },
+  { code: 'sk', name: 'Slovak', native: 'Slovenčina', region: 'Slovakia' },
+  { code: 'sl', name: 'Slovenian', native: 'Slovenščina', region: 'Slovenia' },
+  { code: 'ca', name: 'Catalan', native: 'Català', region: 'Spain, Catalonia' },
+  { code: 'sq', name: 'Albanian', native: 'Shqip', region: 'Albania' },
+  { code: 'et', name: 'Estonian', native: 'Eesti', region: 'Estonia' },
+  { code: 'lv', name: 'Latvian', native: 'Latviešu', region: 'Latvia' },
+  { code: 'lt', name: 'Lithuanian', native: 'Lietuvių', region: 'Lithuania' },
+  { code: 'af', name: 'Afrikaans', native: 'Afrikaans', region: 'South Africa, Namibia' },
+  { code: 'sw', name: 'Swahili', native: 'Kiswahili', region: 'East Africa' },
+  { code: 'xx', name: 'Xhosa', native: 'isiXhosa', region: 'South Africa' },
+  { code: 'zu', name: 'Zulu', native: 'isiZulu', region: 'South Africa' },
+];
+
+const translations = {
+  en: {
+    'hero-title': 'AI-Powered <span class="accent">Rural Health</span><br>Triage & Telemedicine<br>Bridge',
+    'hero-sub': 'Connecting 700 million rural Indians to life-saving healthcare — through intelligent symptom triage, real-time doctor matching, and offline-capable emergency routing.',
+    'hero-badge': 'National Health Innovation Hackathon 2025',
+    'btn-demo': 'Live Demo',
+    'btn-learn': 'Learn More',
+    'hero-stat1': 'India without adequate healthcare access',
+    'hero-stat2': 'Annual preventable deaths',
+    'hero-stat3': 'Doctor-patient ratio in rural India',
+    'problem-tag': 'The Problem',
+    'problem-title': 'India\'s rural healthcare crisis<br>demands urgent innovation',
+    'problem-sub': 'Over 65% of India\'s population lives in rural areas, yet they receive less than 30% of healthcare services. The gap is widening — and preventable deaths are the price.',
+    'solution-tag': 'How It Works',
+    'solution-title': 'From symptom to care,<br>in under 10 minutes',
+    'solution-sub': 'AarogyaConnect is a four-step intelligent pipeline that works even on low-bandwidth networks and in 12 regional languages.'
+  },
+  hi: {
+    'hero-title': 'एआई-संचालित <span class="accent">ग्रामीण स्वास्थ्य</span><br>ट्राइएज और टेलीमेडिसिन<br>सेतु',
+    'hero-sub': '७०० मिलियन ग्रामीण भारतीयों को जीवन रक्षक स्वास्थ्यसेवा से जोड़ना — बुद्धिमान लक्षण ट्राइएज, रीयल-टाइम डॉक्टर मिलान, और ऑफलाइन-सक्षम आपातकालीन राउटिंग के माध्यम से।',
+    'hero-badge': 'राष्ट्रीय स्वास्थ्य नवाचार हैकाथॉन २०२५',
+    'btn-demo': 'लाइव डेमो',
+    'btn-learn': 'अधिक जानें',
+    'hero-stat1': 'भारत में पर्याप्त स्वास्थ्यसेवा के बिना',
+    'hero-stat2': 'वार्षिक रोकथाम योग्य मृत्यु',
+    'hero-stat3': 'ग्रामीण भारत में डॉक्टर-रोगी अनुपात',
+    'problem-tag': 'समस्या',
+    'problem-title': 'भारत का ग्रामीण स्वास्थ्य संकट<br>तत्काल नवाचार की मांग करता है',
+    'problem-sub': 'भारत की ६५% आबादी ग्रामीण क्षेत्रों में रहती है, फिर भी वे कुल स्वास्थ्यसेवा का ३०% से कम प्राप्त करते हैं।',
+    'solution-tag': 'कैसे काम करता है',
+    'solution-title': '१० मिनट से कम में लक्षण से<br>देखभाल तक',
+    'solution-sub': 'AarogyaConnect एक चार-चरणीय बुद्धिमान पाइपलाइन है जो कम बैंडविड्थ नेटवर्क और १२ क्षेत्रीय भाषाओं में काम करती है।'
+  },
+  ta: {
+    'hero-title': 'கணித்த வாழ்க்கை <span class="accent">கிராமப்புற சுகாதாரம்</span><br>மதிப்பீடு மற்றும் தொலைநோக்கு மருத்துவம்<br>பாலம்',
+    'hero-sub': '७००  मिलियन கிராமப்புற இந்தியர்களை வாழ்க்கை காக்கும் சுகாதாரத்துடன் இணைப்பது — அறிவுள்ள அறிகுறி மதிப்பீடு, நிஜ-நேர மருத்துவர் பொருத்தம், மற்றும் ஆஃப்லைன்-திறம்பட-அவசர நிலை திசைதிருப்பல் மூலம்।',
+    'hero-badge': 'தேசிய சுகாதாரம் புதுமை ஹ்யாக்கத்தான் २०२५',
+    'btn-demo': 'நேரலை டெமோ',
+    'btn-learn': 'கூடுதல் அறிக',
+    'hero-stat1': 'இந்தியாவில் போதுமான சுகாதாரம் இல்லாமல்',
+    'hero-stat2': 'ஆண்டுக்கு தடுக்கக்கூடிய இறப்பு',
+    'hero-stat3': 'கிராமப்புற இந்தியாவில் மருத்துவர்-நோயாளி விகிதம்',
+    'problem-tag': 'பிரச்சினை',
+    'problem-title': 'இந்தியாவின் கிராமப்புற சுகாதாரம்<br>அவசர புதுமை தேவைப்படுகிறது',
+    'problem-sub': 'இந்தியாவின் ६५% மக்கள் கிராமப்புற பகுதிகளில் வாழ்கிறார்கள், இருப்பினும் அவர்கள் மொத்த சுகாதாரம் சேவைகளில் ३०% க்கும் குறைவாக பெறுகிறார்கள்।',
+    'solution-tag': 'இது எவ்வாறு செயல்படுகிறது',
+    'solution-title': '१० நிமிடத்திற்கும் குறைவாக',
+    'solution-sub': 'AarogyaConnect ஒரு நான்கு-கட்ட அறிவுள்ள குழாய் ஆகும்.'
+  },
+  pa: {
+    'hero-title': 'ਕਮਜ਼ੋਰ <span class="accent">ਗ੍ਰਾਮੀਣ ਸਿਹਤ</span><br>ਟ੍ਰਾਈਏਜ ਅਤੇ ਦੂਰਸੰਚਾਰ<br>ਸੇਤੂ',
+    'hero-sub': '७०० मिलीअन ਗ੍ਰਾਮੀਣ ਭਾਰਤੀਆਂ ਨੂੰ ਜੀਵਨ ਬਚਾਉਣ ਵਾਲੀ ਸਿਹਤ ਸੇਵਾ ਨਾਲ ਜੋੜਨਾ — ਬੁੱਧੀਮਾਨ ਲੱਛਣ ਟ੍ਰਾਈਏਜ, ਰਿਅਲ-ਟਾਈਮ ਡਾਕਟਰ ਮੀਲਾਪ, ਅਤੇ ਔਫ-ਲਾਈਨ-ਸਮਰੱਥ ਐਮਰਜੈਂਸੀ ਰਾਊਟਿੰਗ ਦੁਆਰਾ।',
+    'hero-badge': 'ਰਾਸ਼ਟਰੀ ਸਿਹਤ ਨਵੁਗਰਹ ਹੈਕਥਨ २०२५',
+    'btn-demo': 'ਲਾਈਵ ਡੈਮੋ',
+    'btn-learn': 'ਹੋਰ ਜਾਣੋ',
+    'hero-stat1': 'ਭਾਰਤ ਵਿਚ ਕਾਫ਼ੀ ਸਿਹਤ ਸੇਵਾ ਦੇ ਬਿਨਾਂ',
+    'hero-stat2': 'ਸਾਲਾਨਾ ਬਚਾਇਆ ਜਾ ਸਕਦਾ ਹੈ ਜਾਂ ਮੌਤ',
+    'hero-stat3': 'ਗ੍ਰਾਮੀਣ ਭਾਰਤ ਵਿਚ ਡਾਕਟਰ-ਮਰੀਜ਼ ਅਨੁਪਾਤ',
+    'problem-tag': 'ਸਮੱਸਿਆ',
+    'problem-title': 'ਭਾਰਤ ਦਾ ਗ੍ਰਾਮੀਣ ਸਿਹਤ ਸੰकट<br>ਤਕੀਓ ਨਵੁਗਰਹ ਮੰਗ ਕਰਦਾ ਹੈ',
+    'problem-sub': 'ਭਾਰਤ ਦੀ ६५% ਆਬਾਦੀ ਗ੍ਰਾਮੀਣ ਖੇਤਰਾਂ ਵਿਚ ਰਹਿੰਦੀ ਹੈ।',
+    'solution-tag': 'ਇਹ ਕਾਸੇ ਕੰਮ ਕਰਦਾ ਹੈ',
+    'solution-title': 'ਲੱਛਣ ਤੋਂ ਦੇਖ-ਭਾਲ',
+    'solution-sub': 'AarogyaConnect ਇਕ ਚਾਰ-ਮੰਜ਼ਲਾ ਬੁੱਧੀਮਾਨ ਪਾਈਪਲਾਈਨ ਹੈ।'
+  },
+  bn: {
+    'hero-title': 'এআই-চালিত <span class="accent">গ্রামীণ স্বাস্থ্য</span><br>বাছাইকরণ ও টেলিমেডিসিন<br>সেতু',
+    'hero-sub': '७००  মিলিয়ন গ্রামীণ ভারতীয়কে জীবন রক্ষাকারী স্বাস্থ্যসেবার সাথে সংযুক্ত করা — বুদ্ধিমান উপসর্গ বাছাইকরণ, রিয়েল-টাইম ডাক্তার ম্যাচিং এবং অফলাইন-সক্ষম জরুরি রুটিংয়ের মাধ্যমে।',
+    'hero-badge': 'জাতীয় স্বাস্থ্য উদ্ভাবন হ্যাকাথন २०२५',
+    'btn-demo': 'লাইভ ডেমো',
+    'btn-learn': 'আরও জানুন',
+    'hero-stat1': 'ভারতে পর্যাপ্ত স্বাস্থ্যসেবা ছাড়াই',
+    'hero-stat2': 'বার্ষিক প্রতিরোধযোগ্য মৃত্যু',
+    'hero-stat3': 'গ্রামীণ ভারতে ডাক্তার-রোগীর অনুপাত',
+    'problem-tag': 'সমস্যা',
+    'problem-title': 'ভারতের গ্রামীণ স্বাস্থ্য সংকট<br>জরুরী উদ্ভাবন দাবি করে',
+    'problem-sub': 'ভারতের ६५% জনসংখ্যা গ্রামীণ এলাকায় বসবাস করে, তবুও তারা মোট স্বাস্থ্যসেবার ३०% এর চেয়ে কম পায়।',
+    'solution-tag': 'এটি কীভাবে কাজ করে',
+    'solution-title': 'উপসর্গ থেকে যত্ন,<br>१० মিনিটের মধ্যে',
+    'solution-sub': 'AarogyaConnect একটি চার-ধাপীয় বুদ্ধিমান পাইপলাইন যা কম ব্যান্ডউইথ নেটওয়ার্কে কাজ করে।'
+  },
+  te: {
+    'hero-title': 'AI-Powered <span class="accent">గ్రామీణ ఆరోగ్యం</span><br>ట్రయేజ్ మరియు టెలిమెడిసిన్<br>సేతువు',
+    'hero-sub': '७००  मिलियన్ గ్రామీణ భారతీయులను జీవితం రక్షక ఆరోగ్య సేవలకు కనెక్ట్ చేయడం — ఇంటెలిజెంట్ సింప్టమ్ ట్రయేజ్, రియల్-టైమ్ డాక్టర్ మ్యాచింగ్ మరియు ఆఫ్‌లైన్-సక్షమ ఎమర్జెన్సీ రూటింగ్ ద్వారా.',
+    'hero-badge': 'జాతీయ ఆరోగ్య ఆవిష్కరణ హ్యాకతాన్ २०२५',
+    'btn-demo': 'లైవ్ డెమో',
+    'btn-learn': 'మరింది తెలుసుకోండి',
+    'hero-stat1': 'భారతదేశంలో సరిపడిన ఆరోగ్య సేవ లేకుండా',
+    'hero-stat2': 'వార్షిక నివారణీయ మరణాలు',
+    'hero-stat3': 'గ్రామీణ భారతదేశంలో డాక్టర్-రోగి నిష్పత్తి',
+    'problem-tag': 'సమస్య',
+    'problem-title': 'భారతదేశం యొక్క గ్రామీణ ఆరోగ్య సంక్షోభం<br>తక్షణ ఆవిష్కరణ కోసం పిలుస్తుంది',
+    'problem-sub': 'భారతదేశం యొక్క ६५% జనాభా గ్రామీణ ప్రాంతాలలో నివసిస్తుంది, కానీ వారు మొత్తం ఆరోగ్య సేవలో ३०% కంటే తక్కువ పొందుతారు.',
+    'solution-tag': 'ఇది ఎలా పనిచేస్తుంది',
+    'solution-title': 'సింప్టమ్ నుండి జాగ్రత్త,<br>१० నిమిషాలలో',
+    'solution-sub': 'AarogyaConnect నాలుగు-దశ ఇంటెలిజెంట్ పైపు లైన్.'
+  },
+  mr: {
+    'hero-title': 'AI-संचालित <span class="accent">ग्रामीण आरोग्य</span><br>ट्रायेज आणि टेलीमेडिसिन<br>पुल',
+    'hero-sub': '७००  मिलियन ग्रामीण भारतीयांना जीवन रक्षक आरोग्य सेवांशी जोडणे — बुद्धिमान लक्षण ट्रायेज, रीयल-टाइम डॉक्टर मिलान आणि ऑफलाइन-सक्षम आपत्कालीन मार्गनिर्देशन द्वारे.',
+    'hero-badge': 'राष्ट्रीय आरोग्य नवीनीकरण हॅकाथॉन २०२५',
+    'btn-demo': 'लाइव्ह डेमो',
+    'btn-learn': 'अधिक जाणून घ्या',
+    'hero-stat1': 'भारतात पुरेशा आरोग्य सेवा न करता',
+    'hero-stat2': 'वार्षिक प्रतिबंधक मृत्यू',
+    'hero-stat3': 'ग्रामीण भारतात डॉक्टर-रोगी प्रमाण',
+    'problem-tag': 'समस्या',
+    'problem-title': 'भारताचे ग्रामीण आरोग्य संकट<br>तातडीने नवीनीकरणास सांगते',
+    'problem-sub': 'भारताची ६५% लोकसंख्या ग्रामीण भागात राहते, तरी त्यांना एकूण आरोग्य सेवांपैकी ३०% पेक्षा कमी मिळते.',
+    'solution-tag': 'हे कसे काम करते',
+    'solution-title': 'लक्षण पासून काळजी,<br>१० मिनिटांत',
+    'solution-sub': 'AarogyaConnect एक चार-पायरी बुद्धिमान पाइपलाइन आहे.'
+  },
+  gu: {
+    'hero-title': 'AI-Powered <span class="accent">ગ્રામીણ સ્વાસ્થ્ય</span><br>ટ્રીએજ અને ટેલીમેડિસિન<br>પુલ',
+    'hero-sub': '७००  मिલिયన્ ગ્રામીણ ભારતીયોને જીવન બચાવતી આરોગ્ય સેવાઓ સાથે જોડવું — બુદ્ધિશાળી લક્ષણ ટ્રીએજ, વાસ્તવિક-સમય ડૉક્ટર મેચિંગ અને ઑફલાઇન-સક્ષમ કટોકટી રુટીંગ દ્વારા.',
+    'hero-badge': 'રાષ્ટ્રીય આરોગ્ય ઇનોવેશન હ્યાકથોન २०२५',
+    'btn-demo': 'લાઇવ ડેમો',
+    'btn-learn': 'વધુ જાણો',
+    'hero-stat1': 'ભારતમાં પર્યાપ્ત આરોગ્ય સેવા વિના',
+    'hero-stat2': 'વાર્ષિક અટકાવી શકાય તેવા મૃત્યુ',
+    'hero-stat3': 'ગ્રામીણ ભારતમાં ડૉક્ટર-દર્દી ગુણોત્તર',
+    'problem-tag': 'સમસ્યા',
+    'problem-title': 'ભારતનું ગ્રામીણ આરોગ્ય સંકટ<br>તાત્કાલીક ઇનોવેશન માટે કૉલ કરે છે',
+    'problem-sub': 'ભારતની ६५% વસતી ગ્રામીણ વિસ્તારમાં રહે છે, તોય તેમને કુલ આરોગ્ય સેવાનો ३०% કરતાં ઓછો મળે છે.',
+    'solution-tag': 'તે કેવી રીતે કાર્ય કરે છે',
+    'solution-title': 'લક્ષણથી વધુ,<br>१० મિનિટમાં',
+    'solution-sub': 'AarogyaConnect ચાર-પગલું બુદ્ધિશાળી પાઇપલાઇન છે.'
+  },
+  kn: {
+    'hero-title': 'AI-Powered <span class="accent">ಗ್ರಾಮೀಣ ಆರೋಗ್ಯ</span><br>ಟ್ರಿಯೇಜ್ ಮತ್ತು ಟೆಲಿಮೆಡಿಸಿನ್<br>ಸೇತುವೆ',
+    'hero-sub': '७००  मिलिय့န् ಗ್ರಾಮೀಣ ಭಾರತೀಯರನ್ನು ಜೀವನ ರಕ್ಷಕ ಆರೋಗ್ಯ ಸೇವೆಗಳಿಗೆ ಸಂಪರ್ಕಿಸುವುದು — ಬುದ್ಧಿಮಾನ ಲಕ್ಷಣ ಟ್ರಿಯೇಜ್, ರಿಯಲ್-ಟೈಮ್ ಡಾಕ್ಟರ್ ಮ್ಯಾಚಿಂಗ್ ಮತ್ತು ಆಫ್-ಲೈನ್-ಸಮರ್ಥ ತುರ್ತು ರುಟಿಂಗ್ ಮೂಲಕ.',
+    'hero-badge': 'ರಾಷ್ಟ್ರೀಯ ಆರೋಗ್ಯ ಇನೋವೇಶನ್ ಹ್ಯಾಕತಾನ್ २०२५',
+    'btn-demo': 'ಲೈವ್ ಡೆಮೋ',
+    'btn-learn': 'ಹೆಚ್ಚು ಮಾಹಿತಿ ಪಡೆಯಿರಿ',
+    'hero-stat1': 'ಭಾರತದಲ್ಲಿ ಸಮರ್ಪಕ ಆರೋಗ್ಯ ಸೇವೆ ಇಲ್ಲದೆ',
+    'hero-stat2': 'ವಾರ್ಷಿಕ ತಡೆಯಬಹುದಾದ ಸಾವುಗಳು',
+    'hero-stat3': 'ಗ್ರಾಮೀಣ ಭಾರತದಲ್ಲಿ ವೈದ್ಯ-ರೋಗಿ ಅನುಪಾತ',
+    'problem-tag': 'ಸಮಸ್ಯೆ',
+    'problem-title': 'ಭಾರತದ ಗ್ರಾಮೀಣ ಆರೋಗ್ಯ ಬಿಸಿಲು<br>ತುರ್ತು ಇನೋವೇಶನ್ ಕೋರುತ್ತದೆ',
+    'problem-sub': 'ಭಾರತದ ६५% ಜನಸಂಖ್ಯೆ ಗ್ರಾಮೀಣ ಪ್ರದೇಶಗಳಲ್ಲಿ ವಾಸ ನಿವಾಸ ಮಾಡುತ್ತದೆ.',
+    'solution-tag': 'ಅದು ಹೇಗೆ ಕೆಲಸ ಮಾಡುತ್ತದೆ',
+    'solution-title': 'ಲಕ್ಷಣ ಸಾಕಿಷ್ಟ,<br>१० ನಿಮಿಷಗಳಲ್ಲಿ',
+    'solution-sub': 'AarogyaConnect ನಾಲ್ಕು-ಹಂತದ ಬುದ್ಧಿಮಾನ ಪೈಪ್ ಲೈನ್.'
+  },
+  ml: {
+    'hero-title': 'AI-Powered <span class="accent">ഗ്രാമീണ ആരോഗ്യം</span><br>ട്രിയാജ് എന്നും ടെലിമെഡിസിൻ<br>പാലം',
+    'hero-sub': '७००  मिलिय० ദശലക്ഷം ഗ്രാമീണ ഇന്ത്യക്കാരെ ജീവന് രക്ഷകരമായ ആരോഗ്യ സേവനങ്ങളുമായി ബന്ധിപ്പിക്കുന്നു — അറിവുള്ള രോഗലക്ഷണ ട്രിയാജ്, യഥാസമയ ഡോക്ടർ മാച്ചിംഗ് എന്നും ഓഫലൈൻ-സജ്ജ അടിയന്തര റൂട്ടിങ് വഴി.',
+    'hero-badge': 'ദേശീയ ആരോഗ്യ നവീകരണ ഹ്യാക്കതോൺ २०२५',
+    'btn-demo': 'ലൈവ് ഡെമോ',
+    'btn-learn': 'കൂടുതൽ അറിയുന്നതിനായി',
+    'hero-stat1': 'ഇന്ത്യയിൽ സാഫല്യകരമായ ആരോഗ്യ സേവന്നില്ലാതെ',
+    'hero-stat2': 'വാർഷിക തടയാവുന്ന മരണങ്ങൾ',
+    'hero-stat3': 'ഗ്രാമീണ ഇന്ത്യയിൽ ഡോക്ടർ-രോഗി അനുപാതം',
+    'problem-tag': 'പ്രശ്നം',
+    'problem-title': 'ഇന്ത്യയുടെ ഗ്രാമീണ ആരോഗ്യ സംകട്ടം<br>താത്ക്ഷണിക നവീകരണ ആവശ്യപ്പെടുന്നു',
+    'problem-sub': 'ഇന്ത്യയുടെ ६५% ജനസംഖ്യ ഗ്രാമീണ പ്രദേശങ്ങളിൽ വാസം ചെയ്യുന്നു.',
+    'solution-tag': 'ഇത് എങ്ങനെ കാര്യമാക്കുന്നു',
+    'solution-title': 'രോഗലക്ഷണം കമാരം,<br>१० മിനിറ്റിനിൽ',
+    'solution-sub': 'AarogyaConnect നാല്-ഘട്ട ബുദ്ധിമാനമായ പൈപ്പ് ലൈൻ.'
+  },
+  ur: {
+    'hero-title': 'AI-Powered <span class="accent">دیہی صحت</span><br>ٹریج اور ٹیلی میڈیسن<br>پل',
+    'hero-sub': '७००  मिलиय० ملین دیہی ہندوستانیوں کو زندگی بچانے والی صحت کی سہولیات سے جوڑنا — ذہین علامت کی ٹریج، حقیقی وقت میں ڈاکٹر کی موافقت، اور آف لائن-قابل ایمرجنسی روٹنگ کے ذریعے۔',
+    'hero-badge': 'قومی صحت کی تخلیق ہیکاتھون २०२५',
+    'btn-demo': 'لائیو ڈیمو',
+    'btn-learn': 'مزید جانیں',
+    'hero-stat1': 'ہندوستان میں مناسب صحت کی سہولیات کے بغیر',
+    'hero-stat2': 'سالانہ قابل غور اموات',
+    'hero-stat3': 'دیہی ہندوستان میں ڈاکٹر روگی کا تناسب',
+    'problem-tag': 'مسئلہ',
+    'problem-title': 'ہندوستان کا دیہی صحت کا بحران<br>فوری تخلیق کا مطالبہ',
+    'problem-sub': 'ہندوستان کی ६५٪ آبادی دیہی علاقوں میں رہتی ہے۔',
+    'solution-tag': 'یہ کیسے کام کرتا ہے',
+    'solution-title': 'علامت سے احتیاط,<br>१० منٹ میں',
+    'solution-sub': 'AarogyaConnect ایک چار مرحلہ ذہین پائپ لائن ہے۔'
+  },
+  or: {
+    'hero-title': 'AI-Powered <span class="accent">ଗ୍ରାମୀଣ ସ୍ବାସ୍ଥ୍ୟ</span><br>ଟ୍ରିଏଜ୍ ଏବଂ ଟେଲିମେଡିସିନ୍<br>ସେତୁ',
+    'hero-sub': '७००  मिलिय०ନ୍ ଗ୍ରାମୀଣ ଭାରତୀୟମାନଙ୍କୁ ଜୀବନ ରକ୍ଷାକାରୀ ସ୍ବାସ୍ଥ୍ୟ ସେବାରେ ସଂଯୋଗ କରିବା — ଅତି ବୁଦ୍ଧିମାନ ଲକ୍ଷଣ ଟ୍ରିଏଜ୍, ବାସ୍ତବ ସମୟ ଡାକ୍ତର ମେଳିଲା ଏବଂ ଅଫଲାଇନ୍-ସକ୍ଷମ ଜରୁରୀ ମାର୍ଗ ନିର୍ଦେଶନା ମାଧ୍ୟମରେ।',
+    'hero-badge': 'ଜାତୀୟ ସ୍ବାସ୍ଥ୍ୟ ଉଦ୍ଭାବନ ହ୍ୟାକେଥନ୍ २०२५',
+    'btn-demo': 'ଲାଇଭ୍ ଡେମୋ',
+    'btn-learn': 'ଅଧିକ ଜାଣନ୍ତୁ',
+    'hero-stat1': 'ଭାରତରେ ପର୍ଯ୍ୟାପ୍ତ ସ୍ବାସ୍ଥ୍ୟ ସେବା ବିନା',
+    'hero-stat2': 'ବାର୍ଷିକ ରୋକିବାକୁ ଯୋଗ୍ୟ ମୃତ୍ୟୁ',
+    'hero-stat3': 'ଗ୍ରାମୀଣ ଭାରତରେ ଡାକ୍ତର-ରୋଗୀ ଅନୁପାତ',
+    'problem-tag': 'ସମସ୍ୟା',
+    'problem-title': 'ଭାରତର ଗ୍ରାମୀଣ ସ୍ବାସ୍ଥ୍ୟ ସଙ୍କଟ<br>ଜରୁରୀ ଉଦ୍ଭାବନ ଦାବିକରେ',
+    'problem-sub': 'ଭାରତର ६५% ଜନସଂଖ୍ୟା ଗ୍ରାମୀଣ ଅଞ୍ଚଳରେ ବାସ କରେ।',
+    'solution-tag': 'ଏହା କିପରି କାମ କରେ',
+    'solution-title': 'ଲକ୍ଷଣ ଠାରୁ ଯତ୍ନ,<br>१० ମିନିଟରେ',
+    'solution-sub': 'AarogyaConnect ଚାରି-ଚରଣ ଅତି ବୁଦ୍ଧିମାନ ପାଇପ୍ ଲାଇନ୍।'
+  }
+};
+
+let currentLang = localStorage.getItem('aarogya-lang') || 'en';
+
+function toggleLangMenu() {
+  const menu = document.getElementById('lang-menu');
+  if (menu) {
+    menu.classList.toggle('active');
+    if (menu.classList.contains('active')) {
+      const searchInput = document.getElementById('lang-search');
+      if (searchInput) {
+        searchInput.focus();
+        searchInput.value = '';
+        filterLanguages({ target: searchInput });
+      }
+    }
+  }
+}
+
+function initializeLanguageOptions() {
+  const container = document.getElementById('lang-options-container');
+  if (!container) return;
+  
+  container.innerHTML = allLanguages.map(lang => {
+    const isSelected = lang.code === currentLang ? 'selected' : '';
+    const checkmark = lang.code === currentLang ? '<span class="lang-checkmark">✓</span>' : '';
+    return `<div class="lang-option ${isSelected}" data-lang="${lang.code}" data-search="${lang.name.toLowerCase()} ${lang.native.toLowerCase()} ${lang.region.toLowerCase()}" onclick="setLanguage('${lang.code}', this)">
+      <div style="flex:1;">
+        <div style="font-size:13px;font-weight:500;color:var(--gray-800)">${lang.name}</div>
+        <div style="font-size:11px;color:var(--gray-400)">${lang.native}</div>
+      </div>
+      <div style="font-size:11px;color:var(--gray-400);margin-left:auto;margin-right:8px;">${lang.region}</div>
+      ${checkmark}
+    </div>`;
+  }).join('');
+  
+  // Add search functionality
+  const searchInput = document.getElementById('lang-search');
+  if (searchInput) {
+    searchInput.addEventListener('input', filterLanguages);
+  }
+}
+
+function filterLanguages(e) {
+  const searchTerm = e.target.value.toLowerCase().trim();
+  const options = document.querySelectorAll('.lang-option');
+  let visibleCount = 0;
+  
+  options.forEach(option => {
+    const searchData = option.dataset.search || '';
+    const matches = searchData.includes(searchTerm) || searchTerm === '';
+    option.style.display = matches ? 'flex' : 'none';
+    if (matches) visibleCount++;
+  });
+  
+  // Show "no results" message if needed
+  let noResults = document.querySelector('.lang-no-results');
+  if (visibleCount === 0 && searchTerm !== '') {
+    if (!noResults) {
+      noResults = document.createElement('div');
+      noResults.className = 'lang-no-results';
+      document.getElementById('lang-options-container').appendChild(noResults);
+    }
+    noResults.textContent = `No languages found for "${e.target.value}"`;
+    noResults.style.display = 'block';
+  } else if (noResults) {
+    noResults.style.display = 'none';
+  }
+}
+
+document.addEventListener('click', function(e) {
+  const selector = document.querySelector('.lang-selector');
+  if (selector && !selector.contains(e.target)) {
+    const menu = document.getElementById('lang-menu');
+    if (menu) menu.classList.remove('active');
+  }
+});
+
+function setLanguage(lang, el) {
+  currentLang = lang;
+  localStorage.setItem('aarogya-lang', lang);
+  
+  // Update dropdown label
+  const selectedLang = allLanguages.find(l => l.code === lang);
+  if (selectedLang) {
+    document.getElementById('lang-label').textContent = selectedLang.code.toUpperCase();
+  }
+  
+  // Update menu selection
+  document.querySelectorAll('.lang-option').forEach(opt => {
+    const checkmark = opt.querySelector('.lang-checkmark');
+    if (opt.dataset.lang === lang) {
+      opt.classList.add('selected');
+      if (!checkmark) {
+        const chk = document.createElement('span');
+        chk.className = 'lang-checkmark';
+        chk.textContent = '✓';
+        opt.appendChild(chk);
+      }
+    } else {
+      opt.classList.remove('selected');
+      if (checkmark) checkmark.remove();
+    }
+  });
+  
+  // Apply translations
+  applyTranslations(lang);
+  
+  // Close menu
+  const menu = document.getElementById('lang-menu');
+  if (menu) menu.classList.remove('active');
+}
+
+function applyTranslations(lang) {
+  const trans = translations[lang] || translations['en'];
+  
+  // Hero section
+  const heroTitle = document.querySelector('.hero h1');
+  if (heroTitle && trans['hero-title']) heroTitle.innerHTML = trans['hero-title'];
+  
+  const heroSub = document.querySelector('.hero-sub');
+  if (heroSub && trans['hero-sub']) heroSub.textContent = trans['hero-sub'];
+  
+  // Problem section
+  const problemTitle = document.querySelector('.problem-section .section-title');
+  if (problemTitle && trans['problem-title']) problemTitle.innerHTML = trans['problem-title'];
+  
+  const problemSub = document.querySelector('.problem-section .section-sub');
+  if (problemSub && trans['problem-sub']) problemSub.textContent = trans['problem-sub'];
+  
+  // Solution section
+  const solutionTitle = document.querySelector('.how-section .section-title');
+  if (solutionTitle && trans['solution-title']) solutionTitle.innerHTML = trans['solution-title'];
+  
+  const solutionSub = document.querySelector('.how-section .section-sub');
+  if (solutionSub && trans['solution-sub']) solutionSub.textContent = trans['solution-sub'];
+}
+
+// Initialize language on page load
+document.addEventListener('DOMContentLoaded', function() {
+  initializeLanguageOptions();
+  setLanguage(currentLang);
+});
+</script>
+</body>
+</html>
